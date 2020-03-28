@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
+using System.Web;
+using System.Net;
+using System.IO;
 
 namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
@@ -28,27 +31,47 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
+            if (buttonLogin.Text == "Logout")
+            {
+                FacebookWrapper.FacebookService.Logout(() => { });
+                buttonLogin.Text = "Login";
+                form NewForm = new form();
+                NewForm.Show();
+                this.Dispose(false);
+                return;
+            }
+
+            buttonLogin.Text = "Logout";
             FacebookWrapper.LoginResult loginResult = FacebookWrapper.FacebookService.Login("202490531010346",
-                "user_friends",
                 "public_profile",
+                "email",
+                "publish_to_groups",
+                "user_age_range",
+                "user_gender",
+                "user_link",
+                "user_tagged_places",
+                "user_videos",
+                "publish_to_groups",
+                "groups_access_member_info",
                 "user_friends",
                 "user_likes",
                 "user_photos",
                 "user_posts",
-                "user_status"
+                "user_hometown"
                 );
             m_LoggedInUser = loginResult.LoggedInUser;
             updateDisplay(m_LoggedInUser);
+        }
 
-
-
+        private void resetDisplay()
+        {
         }
 
         private void updateDisplay(User i_LoggedInUser)
         {
             updateUserInfo(i_LoggedInUser);
             updateGeneralInfoTab(i_LoggedInUser);
-            // updateMostLikedPhotosTab(i_LoggedInUser);
+            //updateMostLikedPhotosTab(i_LoggedInUser);//the feature currently not working 
 
         }
 
@@ -100,9 +123,8 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         private void updateGeneralInfoTab(User i_LoggedInUser)
         {
-            updateLastStatusDisplay(i_LoggedInUser);
+            updateUserFeed(i_LoggedInUser.Posts);
             addFriendsToFriendsList(i_LoggedInUser.Friends);
-            //addPagesToPagesList(i_LoggedInUser.LikedPages);
             addCheckinsToCheckinsList(i_LoggedInUser.Checkins);
         }
 
@@ -110,17 +132,9 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             foreach (Checkin checkin in i_Checkins)
             {
-                listBoxCheckins.Items.Add(string.Format("{0},{1} At {2}", checkin.Place.Location.Country, checkin.Place.Location.City, checkin.CreatedTime.ToString()));
+                listBoxCheckins.Items.Add(string.Format("{0},{1} At {2}", checkin.Place.Location.Country, checkin.Place.Location.City, checkin.CreatedTime.Value.ToShortDateString()));
             }
 
-        }
-
-        private void addPagesToPagesList(FacebookObjectCollection<Page> i_likedPages)
-        {
-            foreach (Page likedPage in i_likedPages)
-            {
-                listBoxPages.Items.Add(likedPage.Name);
-            }
         }
 
         private void addFriendsToFriendsList(FacebookObjectCollection<User> i_Friends)
@@ -131,17 +145,40 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             }
         }
 
-        private void updateLastStatusDisplay(User i_LoggedInUser)
+        private void updateUserFeed(FacebookObjectCollection<Post> i_Posts)
         {
-            if (i_LoggedInUser.Statuses.Count > 0)
+            ImageList imageList = new ImageList();
+            imageList.ImageSize = new Size(200, 128);
+            listViewFeed.LargeImageList = imageList;
+
+            foreach (Post post in i_Posts)
             {
-                listBoxLastStatus.Items.Add(i_LoggedInUser.Posts[0].Type);
-            }
-            else
-            {
-                listBoxLastStatus.Items.Add("You never posted a status on FaceBook");
+                ListViewItem postViewItem = new ListViewItem();
+
+                if (post.Message != null)
+                {
+                    postViewItem.Text = post.Message;
+                }
+                if (post.PictureURL != null && post.PictureURL.Length > 0)
+                {
+                    Image postImage = createImageFromUrl(post.PictureURL);
+                    imageList.Images.Add(post.Id, postImage);
+                    postViewItem.ImageKey = post.Id;
+                }
+                if (!string.IsNullOrEmpty(postViewItem.Text) || !string.IsNullOrEmpty(postViewItem.ImageKey))//if current post contains avaiable data such as Message or photo
+                {
+                    postViewItem.Text = postViewItem.Text + string.Format("\n{0}", post.CreatedTime.Value.ToShortDateString());
+                    listViewFeed.Items.Add(postViewItem);
+                }
             }
         }
 
+        private Image createImageFromUrl(string i_PictureURL)
+        {
+            WebClient webClient = new WebClient();
+            byte[] _data = webClient.DownloadData(i_PictureURL);
+            MemoryStream memoryStream = new MemoryStream(_data);
+            return Image.FromStream(memoryStream);
+        }
     }
 }
