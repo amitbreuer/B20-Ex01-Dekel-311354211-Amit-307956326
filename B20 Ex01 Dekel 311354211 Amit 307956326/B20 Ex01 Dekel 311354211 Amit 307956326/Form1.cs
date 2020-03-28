@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FacebookWrapper.ObjectModel;
 
 namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
@@ -28,13 +29,28 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             FacebookWrapper.LoginResult loginResult = FacebookWrapper.FacebookService.Login("202490531010346", "user_friends");
             m_LoggedInUser = loginResult.LoggedInUser;
-
-            pictureBoxProfilePicture.Load(m_LoggedInUser.PictureNormalURL);
+            updateDisplay(m_LoggedInUser);
 
             
             
         }
 
+        private void updateDisplay(User i_LoggedInUser)
+        {
+            updateUserInfo(i_LoggedInUser);
+            updateGeneralInfoTab(i_LoggedInUser);
+        }
 
+        private void updateUserInfo(User i_LoggedInUser)
+        {
+            pictureBoxProfilePicture.Load(i_LoggedInUser.PictureNormalURL);
+            pictureBoxCoverPhoto.Load(i_LoggedInUser.Cover.SourceURL);
+            labelName.Text = i_LoggedInUser.Name;
+        }
+
+        private void updateGeneralInfoTab(User i_LoggedInUser)
+        {
+
+        }
     }
 }
