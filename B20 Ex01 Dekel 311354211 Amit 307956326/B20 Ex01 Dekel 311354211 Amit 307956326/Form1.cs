@@ -52,5 +52,32 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
 
         }
+
+        private void initiateCompareFriendsTab(User i_LoggedInUser)
+        {
+            // listBoxCompareFriendsList1
+            // listBoxCompareFriendsList2
+        }
+
+        private void listBoxCompareFriendsList1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string friend1Name = listBoxCompareFriendsList1.SelectedItem.ToString();
+            getFriendDataForComparison(friend1Name);
+        }
+
+        private void getFriendDataForComparison(string i_friendsName)
+        {
+            User friendInList = null;
+
+            foreach (User friend in m_LoggedInUser.Friends)
+            {
+                if(friend.Name.Equals(i_friendsName))
+                {
+                    friendInList = friend;
+                }
+            }
+
+            pictureBoxFriend1.Load(friendInList.PictureNormalURL);
+        }
     }
 }
