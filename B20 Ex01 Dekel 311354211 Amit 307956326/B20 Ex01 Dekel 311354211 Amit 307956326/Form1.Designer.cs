@@ -52,7 +52,6 @@
             this.pictureBoxFirstMostLikedPicture = new System.Windows.Forms.PictureBox();
             this.pictureBoxSecondMostLikedPicture = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.pictureBoxProfilePicture = new System.Windows.Forms.PictureBox();
             this.pictureBoxCoverPhoto = new System.Windows.Forms.PictureBox();
             this.pictureBoxFriend1 = new System.Windows.Forms.PictureBox();
@@ -266,22 +265,13 @@
             // 
             // labelThirdMostLikedPicture
             // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.SystemColors.ButtonShadow;
-            this.label3.Location = new System.Drawing.Point(999, 376);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 25);
-            this.label3.TabIndex = 57;
-            this.label3.Text = "X Likes";
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Location = new System.Drawing.Point(849, 156);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(351, 259);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 56;
-            this.pictureBox3.TabStop = false;
+            this.labelThirdMostLikedPicture.AutoSize = true;
+            this.labelThirdMostLikedPicture.ForeColor = System.Drawing.SystemColors.ButtonShadow;
+            this.labelThirdMostLikedPicture.Location = new System.Drawing.Point(999, 376);
+            this.labelThirdMostLikedPicture.Name = "label3";
+            this.labelThirdMostLikedPicture.Size = new System.Drawing.Size(77, 25);
+            this.labelThirdMostLikedPicture.TabIndex = 57;
+            this.labelThirdMostLikedPicture.Text = "X Likes";
             // 
             // pictureBoxThirdMostLikedPicture
             // 
@@ -368,16 +358,6 @@
             this.label1.Size = new System.Drawing.Size(179, 25);
             this.label1.TabIndex = 40;
             this.label1.Text = "Most Liked Photos:";
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 37);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1204, 552);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Compare Friends";
-            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -497,7 +477,6 @@
             this.listBoxCompareFriendsList1.Name = "listBoxCompareFriendsList1";
             this.listBoxCompareFriendsList1.Size = new System.Drawing.Size(147, 54);
             this.listBoxCompareFriendsList1.TabIndex = 18;
-            this.listBoxCompareFriendsList1.SelectedIndexChanged += new System.EventHandler(this.listBoxCompareFriendsList1_SelectedIndexChanged);
             // 
             // listBoxCompareFriendsList2
             // 
