@@ -9,15 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
-using System.Web;
-using System.Net;
-using System.IO;
+
 
 namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
     public partial class form : Form
     {
-        FacebookWrapper.ObjectModel.User m_LoggedInUser;
+        User m_LoggedInUser;
+        FacebookApp m_FacebookApp;
 
         public form()
         {
@@ -35,6 +34,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             {
                 FacebookWrapper.FacebookService.Logout(() => { });
                 buttonLogin.Text = "Login";
+                m_FacebookApp.m_LoggedInUser = null;
                 form NewForm = new form();
                 NewForm.Show();
                 this.Dispose(false);
@@ -60,6 +60,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                 "user_hometown"
                 );
             m_LoggedInUser = loginResult.LoggedInUser;
+            m_FacebookApp = new FacebookApp(m_LoggedInUser);
             updateDisplay(m_LoggedInUser);
         }
 
@@ -77,7 +78,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         private void updateMostLikedPhotosTab(User i_LoggedInUser)
         {
-            IList<Photo> allPhotos = getUsersPhotosSortedByLikes(i_LoggedInUser);
+            IList<Photo> allPhotos = m_FacebookApp.GetUsersPhotosSortedByLikes(i_LoggedInUser);
             if (allPhotos.Count > 0)
             {
                 pictureBoxFirstMostLikedPicture.Load(allPhotos[0].PictureNormalURL);
@@ -96,21 +97,21 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         }
 
-        private IList<Photo> getUsersPhotosSortedByLikes(User i_LoggedInUser)
-        {
-            IList<Photo> allPhotos = new FacebookObjectCollection<Photo>();
-            FacebookObjectCollection<Album> albums = i_LoggedInUser.Albums;
-            foreach (Album album in albums)
-            {
-                foreach (Photo photo in album.Photos)
-                {
-                    allPhotos.Add(photo);
-                }
-            }
+        //private IList<Photo> getUsersPhotosSortedByLikes(User i_LoggedInUser)
+        //{
+        //    IList<Photo> allPhotos = new FacebookObjectCollection<Photo>();
+        //    FacebookObjectCollection<Album> albums = i_LoggedInUser.Albums;
+        //    foreach (Album album in albums)
+        //    {
+        //        foreach (Photo photo in album.Photos)
+        //        {
+        //            allPhotos.Add(photo);
+        //        }
+        //    }
 
-            allPhotos.OrderBy(photo => photo.LikedBy.Count);
-            return allPhotos;
-        }
+        //    allPhotos.OrderBy(photo => photo.LikedBy.Count);
+        //    return allPhotos;
+        //}
 
         private void updateUserInfo(User i_LoggedInUser)
         {
@@ -124,7 +125,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         private void updateGeneralInfoTab(User i_LoggedInUser)
         {
             updateUserFeed(i_LoggedInUser.Posts);
-            addFriendsToFriendsList(i_LoggedInUser.Friends);
+            addFriendsToFriendsLists(i_LoggedInUser.Friends);
             addCheckinsToCheckinsList(i_LoggedInUser.Checkins);
         }
 
@@ -137,11 +138,12 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         }
 
-        private void addFriendsToFriendsList(FacebookObjectCollection<User> i_Friends)
+        private void addFriendsToFriendsLists(FacebookObjectCollection<User> i_Friends)
         {
             foreach (User friend in i_Friends)
             {
                 listBoxFriends.Items.Add(friend.Name);
+                listBoxRatingFriendsList.Items.Add(friend.Name);
             }
         }
 
@@ -161,7 +163,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                 }
                 if (post.PictureURL != null && post.PictureURL.Length > 0)
                 {
-                    Image postImage = createImageFromUrl(post.PictureURL);
+                    Image postImage = m_FacebookApp.CreateImageFromUrl(post.PictureURL);
                     imageList.Images.Add(post.Id, postImage);
                     postViewItem.ImageKey = post.Id;
                 }
@@ -173,12 +175,36 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             }
         }
 
-        private Image createImageFromUrl(string i_PictureURL)
+        private void listBoxRatingFriendsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            WebClient webClient = new WebClient();
-            byte[] _data = webClient.DownloadData(i_PictureURL);
-            MemoryStream memoryStream = new MemoryStream(_data);
-            return Image.FromStream(memoryStream);
+            getSelectedFriendData(listBoxRatingFriendsList.SelectedItem.ToString());
+        }
+
+        private void getSelectedFriendData(string i_FriendName)
+        {
+            User friendToRate = m_FacebookApp.GetFriendUser(i_FriendName);
+
+            if (friendToRate != null)
+            {
+                pictureBoxRatingFriendProfilePic.Load(friendToRate.PictureNormalURL);
+                updateFriendDataLabels(m_FacebookApp.GetFriendDataByName(i_FriendName));
+            }
+        }
+
+        private void updateFriendDataLabels(FriendData friendData)
+        {
+            int friendRank;
+
+            labelRatingTabLikesCount.Text = friendData.Likes.ToString();
+            labelRatingTabCommentsCount.Text = friendData.Comments.ToString();
+            labelRatingTabCheckinsCount.Text = friendData.SharedCheckins.ToString();
+            labelRatinTabPagesCount.Text = friendData.SharedPages.ToString();
+            labelRatingTabGroupsCount.Text = friendData.SharedGroups.ToString();
+            friendRank = m_FacebookApp.GetFriendRankInFriendsList(friendData.Name);
+            
+            labelRatingTabRankMessage.Text = friendRank > 0 ?
+                string.Format("is ranked {1}# in your friends!", friendData.Name, friendRank) :
+                "is not on your friends list.";
         }
     }
 }

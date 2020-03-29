@@ -19,8 +19,6 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         public FriendData(User i_User, User i_Friend)
         {
-            Name = i_Friend.Name;
-
             foreach (Post post in i_User.Posts)
             {
                 if (post.LikedBy.Contains(i_Friend))
@@ -79,8 +77,11 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             foreach (PropertyInfo propertyInfo in thisType.GetProperties())
             {
                 object propertyValue = propertyInfo.GetValue(this, null);
-                intValue = int.Parse(propertyValue.ToString());
-                o_Rank += 3 * intValue;
+                if(!propertyInfo.Name.Equals("Name"))
+                {
+                    intValue = int.Parse(propertyValue.ToString());
+                    o_Rank += 3 * intValue;
+                }
             }
 
             return o_Rank;
