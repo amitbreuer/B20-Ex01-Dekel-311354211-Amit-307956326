@@ -29,7 +29,6 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             FacebookWrapper.LoginResult loginResult = FacebookWrapper.FacebookService.Login("202490531010346",
-                "user_friends",
                 "public_profile",
                 "user_friends",
                 "user_likes",
@@ -128,20 +127,72 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             foreach (User friend in i_Friends)
             {
                 listBoxFriends.Items.Add(friend.Name);
+                listBoxRatingFriendsList.Items.Add(friend.Name);
             }
         }
 
-        private void updateLastStatusDisplay(User i_LoggedInUser)
+                if (post.Message != null)
+                {
+                    postViewItem.Text = post.Message;
+                }
+                if (post.PictureURL != null && post.PictureURL.Length > 0)
+                {
+                    Image postImage = createImageFromUrl(post.PictureURL);
+                    imageList.Images.Add(post.Id, postImage);
+                    postViewItem.ImageKey = post.Id;
+                }
+                if (!string.IsNullOrEmpty(postViewItem.Text) || !string.IsNullOrEmpty(postViewItem.ImageKey))//if current post contains avaiable data such as Message or photo
+                {
+                    postViewItem.Text = postViewItem.Text + string.Format("\n{0}", post.CreatedTime.Value.ToShortDateString());
+                    listViewFeed.Items.Add(postViewItem);
+                }
+            }
+        }
+
+        private void listBoxRatingFriendsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (i_LoggedInUser.Statuses.Count > 0)
+            getSelectedFriendData(listBoxRatingFriendsList.SelectedItem.ToString());
+        }
+
+        private void getSelectedFriendData(string i_FriendName)
+        {
+            User friendToRate = null;
+
+            foreach (User friend in m_LoggedInUser.Friends)
             {
-                listBoxLastStatus.Items.Add(i_LoggedInUser.Posts[0].Type);
+                if (friend.Name.Equals(i_FriendName))
+                {
+                    friendToRate = friend;
+                }
             }
-            else
+
+            if (friendToRate != null)
             {
-                listBoxLastStatus.Items.Add("You never posted a status on FaceBook");
+                pictureBoxFriendRating.Load(friendToRate.PictureNormalURL);
+                FriendData friendData = new FriendData(m_LoggedInUser, friendToRate);
+                updateFriendDataLabels(friendData);
             }
         }
 
+        private void updateFriendDataLabels(FriendData friendData)
+        {
+            labelLikesFromFriendCount.Text = friendData.Likes.ToString();
+            labelCommentsFromFriendCount.Text = friendData.Comments.ToString();
+            labelSharedCheckinsCount.Text = friendData.SharedCheckins.ToString();
+            labelSharedPagesCount.Text = friendData.SharedPages.ToString();
+            labelSharedGroupsCount.Text = friendData.SharedGroups.ToString();
+            int friendRating = friendData.GetFriendRating();
+            labelRatingMessage.Text = friendRating != -1 ?
+                string.Format("{0} is rated {1}# in your friends!", friendData.Name, friendRating) :
+                "This name is not on your friends list.";
+        }
+
+        private Image createImageFromUrl(string i_PictureURL)
+        {
+            WebClient webClient = new WebClient();
+            byte[] _data = webClient.DownloadData(i_PictureURL);
+            MemoryStream memoryStream = new MemoryStream(_data);
+            return Image.FromStream(memoryStream);
+        }
     }
 }
