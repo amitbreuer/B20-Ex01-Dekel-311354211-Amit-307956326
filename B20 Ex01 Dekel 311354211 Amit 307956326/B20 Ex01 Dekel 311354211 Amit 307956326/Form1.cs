@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
-
+using FacebookWrapper;
 
 namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
@@ -17,15 +17,44 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
     {
         User m_LoggedInUser;
         FacebookApp m_FacebookApp;
+        AppSettings m_AppSettings;
+        LoginResult m_LoginResult;
 
         public form()
         {
             InitializeComponent();
+            m_AppSettings = AppSettings.LoadFromFile();
         }
 
-        private void checkBoxRememberMe_CheckedChanged(object sender, EventArgs e)
+        protected override void OnShown(EventArgs e)
         {
+            base.OnShown(e);
 
+            if(m_AppSettings.RememberUser && !string.IsNullOrEmpty(m_AppSettings.LastAccessToken))
+            {
+                m_LoginResult = FacebookService.Connect(m_AppSettings.LastAccessToken);
+                updateDisplay(m_LoginResult);
+            } 
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+
+            m_AppSettings.LastWindowLocation = this.Location;
+            m_AppSettings.LastWindowSize = this.Size;
+            m_AppSettings.RememberUser = checkBoxRememberMe.Checked;
+
+            if(m_AppSettings.RememberUser)
+            {
+                m_AppSettings.LastAccessToken = m_LoginResult.AccessToken;
+            }
+            else
+            {
+                m_AppSettings.LastAccessToken = null;
+            }
+
+            m_AppSettings.SaveToFile();
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
@@ -34,7 +63,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             {
                 FacebookWrapper.FacebookService.Logout(() => { });
                 buttonLogin.Text = "Login";
-                m_FacebookApp.m_LoggedInUser = null;
+                m_FacebookApp = null;
                 form NewForm = new form();
                 NewForm.Show();
                 this.Dispose(false);
@@ -42,7 +71,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             }
 
             buttonLogin.Text = "Logout";
-            FacebookWrapper.LoginResult loginResult = FacebookWrapper.FacebookService.Login("202490531010346",
+            m_LoginResult = FacebookWrapper.FacebookService.Login("202490531010346",
                 "public_profile",
                 "email",
                 "publish_to_groups",
@@ -51,7 +80,6 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                 "user_link",
                 "user_tagged_places",
                 "user_videos",
-                "publish_to_groups",
                 "groups_access_member_info",
                 "user_friends",
                 "user_likes",
@@ -59,19 +87,20 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                 "user_posts",
                 "user_hometown"
                 );
-            m_LoggedInUser = loginResult.LoggedInUser;
-            m_FacebookApp = new FacebookApp(m_LoggedInUser);
-            updateDisplay(m_LoggedInUser);
+            
+            updateDisplay(m_LoginResult);
         }
 
         private void resetDisplay()
         {
         }
 
-        private void updateDisplay(User i_LoggedInUser)
+        private void updateDisplay(LoginResult i_LoggedInResult)
         {
-            updateUserInfo(i_LoggedInUser);
-            updateGeneralInfoTab(i_LoggedInUser);
+            m_LoggedInUser = i_LoggedInResult.LoggedInUser;
+            m_FacebookApp = new FacebookApp(m_LoggedInUser);
+            updateUserInfo(m_LoggedInUser);
+            updateGeneralInfoTab(m_LoggedInUser);
             //updateMostLikedPhotosTab(i_LoggedInUser);//the feature currently not working 
 
         }
@@ -96,22 +125,6 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             }
 
         }
-
-        //private IList<Photo> getUsersPhotosSortedByLikes(User i_LoggedInUser)
-        //{
-        //    IList<Photo> allPhotos = new FacebookObjectCollection<Photo>();
-        //    FacebookObjectCollection<Album> albums = i_LoggedInUser.Albums;
-        //    foreach (Album album in albums)
-        //    {
-        //        foreach (Photo photo in album.Photos)
-        //        {
-        //            allPhotos.Add(photo);
-        //        }
-        //    }
-
-        //    allPhotos.OrderBy(photo => photo.LikedBy.Count);
-        //    return allPhotos;
-        //}
 
         private void updateUserInfo(User i_LoggedInUser)
         {

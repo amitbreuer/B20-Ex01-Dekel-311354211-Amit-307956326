@@ -91,7 +91,6 @@
             this.checkBoxRememberMe.TabIndex = 2;
             this.checkBoxRememberMe.Text = "Remember me";
             this.checkBoxRememberMe.UseVisualStyleBackColor = true;
-            this.checkBoxRememberMe.CheckedChanged += new System.EventHandler(this.checkBoxRememberMe_CheckedChanged);
             // 
             // buttonLogin
             // 
@@ -493,7 +492,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1225, 895);
+            this.ClientSize = new System.Drawing.Size(1218, 894);
             this.Controls.Add(this.tabControlInfo);
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.pictureBoxProfilePicture);
