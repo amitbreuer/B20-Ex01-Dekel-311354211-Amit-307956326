@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
+using System.Web;
+using System.Net;
+using System.IO;
 
 namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
@@ -28,26 +31,47 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
+            if (buttonLogin.Text == "Logout")
+            {
+                FacebookWrapper.FacebookService.Logout(() => { });
+                buttonLogin.Text = "Login";
+                form NewForm = new form();
+                NewForm.Show();
+                this.Dispose(false);
+                return;
+            }
+
+            buttonLogin.Text = "Logout";
             FacebookWrapper.LoginResult loginResult = FacebookWrapper.FacebookService.Login("202490531010346",
                 "public_profile",
+                "email",
+                "publish_to_groups",
+                "user_age_range",
+                "user_gender",
+                "user_link",
+                "user_tagged_places",
+                "user_videos",
+                "publish_to_groups",
+                "groups_access_member_info",
                 "user_friends",
                 "user_likes",
                 "user_photos",
                 "user_posts",
-                "user_status"
+                "user_hometown"
                 );
             m_LoggedInUser = loginResult.LoggedInUser;
             updateDisplay(m_LoggedInUser);
+        }
 
-
-
+        private void resetDisplay()
+        {
         }
 
         private void updateDisplay(User i_LoggedInUser)
         {
             updateUserInfo(i_LoggedInUser);
             updateGeneralInfoTab(i_LoggedInUser);
-            // updateMostLikedPhotosTab(i_LoggedInUser);
+            //updateMostLikedPhotosTab(i_LoggedInUser);//the feature currently not working 
 
         }
 
@@ -99,9 +123,8 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         private void updateGeneralInfoTab(User i_LoggedInUser)
         {
-            updateLastStatusDisplay(i_LoggedInUser);
+            updateUserFeed(i_LoggedInUser.Posts);
             addFriendsToFriendsList(i_LoggedInUser.Friends);
-            //addPagesToPagesList(i_LoggedInUser.LikedPages);
             addCheckinsToCheckinsList(i_LoggedInUser.Checkins);
         }
 
@@ -109,17 +132,9 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             foreach (Checkin checkin in i_Checkins)
             {
-                listBoxCheckins.Items.Add(string.Format("{0},{1} At {2}", checkin.Place.Location.Country, checkin.Place.Location.City, checkin.CreatedTime.ToString()));
+                listBoxCheckins.Items.Add(string.Format("{0},{1} At {2}", checkin.Place.Location.Country, checkin.Place.Location.City, checkin.CreatedTime.Value.ToShortDateString()));
             }
 
-        }
-
-        private void addPagesToPagesList(FacebookObjectCollection<Page> i_likedPages)
-        {
-            foreach (Page likedPage in i_likedPages)
-            {
-                listBoxPages.Items.Add(likedPage.Name);
-            }
         }
 
         private void addFriendsToFriendsList(FacebookObjectCollection<User> i_Friends)
@@ -127,9 +142,18 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             foreach (User friend in i_Friends)
             {
                 listBoxFriends.Items.Add(friend.Name);
-                listBoxRatingFriendsList.Items.Add(friend.Name);
             }
         }
+
+        private void updateUserFeed(FacebookObjectCollection<Post> i_Posts)
+        {
+            ImageList imageList = new ImageList();
+            imageList.ImageSize = new Size(200, 128);
+            listViewFeed.LargeImageList = imageList;
+
+            foreach (Post post in i_Posts)
+            {
+                ListViewItem postViewItem = new ListViewItem();
 
                 if (post.Message != null)
                 {
@@ -147,44 +171,6 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                     listViewFeed.Items.Add(postViewItem);
                 }
             }
-        }
-
-        private void listBoxRatingFriendsList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            getSelectedFriendData(listBoxRatingFriendsList.SelectedItem.ToString());
-        }
-
-        private void getSelectedFriendData(string i_FriendName)
-        {
-            User friendToRate = null;
-
-            foreach (User friend in m_LoggedInUser.Friends)
-            {
-                if (friend.Name.Equals(i_FriendName))
-                {
-                    friendToRate = friend;
-                }
-            }
-
-            if (friendToRate != null)
-            {
-                pictureBoxFriendRating.Load(friendToRate.PictureNormalURL);
-                FriendData friendData = new FriendData(m_LoggedInUser, friendToRate);
-                updateFriendDataLabels(friendData);
-            }
-        }
-
-        private void updateFriendDataLabels(FriendData friendData)
-        {
-            labelLikesFromFriendCount.Text = friendData.Likes.ToString();
-            labelCommentsFromFriendCount.Text = friendData.Comments.ToString();
-            labelSharedCheckinsCount.Text = friendData.SharedCheckins.ToString();
-            labelSharedPagesCount.Text = friendData.SharedPages.ToString();
-            labelSharedGroupsCount.Text = friendData.SharedGroups.ToString();
-            int friendRating = friendData.GetFriendRating();
-            labelRatingMessage.Text = friendRating != -1 ?
-                string.Format("{0} is rated {1}# in your friends!", friendData.Name, friendRating) :
-                "This name is not on your friends list.";
         }
 
         private Image createImageFromUrl(string i_PictureURL)
