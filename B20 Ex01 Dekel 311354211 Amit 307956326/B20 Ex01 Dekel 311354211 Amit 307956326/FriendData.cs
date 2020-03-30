@@ -25,7 +25,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                 {
                     Likes++;
                 }
-                
+
                 foreach (Comment comment in post.Comments)
                 {
                     if (comment.From.Name.Equals(i_Friend.Name))

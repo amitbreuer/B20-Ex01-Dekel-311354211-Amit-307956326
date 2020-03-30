@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FacebookWrapper;
+using System.IO;
 
 namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
@@ -26,8 +27,10 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             m_AppSettings = AppSettings.LoadFromFile();
 
             this.StartPosition = FormStartPosition.Manual;
+
             this.Location = m_AppSettings.LastWindowLocation;
             this.Size = m_AppSettings.LastWindowSize;
+            this.checkBoxRememberMe.Checked = m_AppSettings.RememberUser;
         }
 
         protected override void OnShown(EventArgs e)
@@ -38,6 +41,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             {
                 m_LoginResult = FacebookService.Connect(m_AppSettings.LastAccessToken);
                 updateDisplay(m_LoginResult);
+                buttonLogin.Text = "Logout";
             } 
         }
 
@@ -47,7 +51,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
             m_AppSettings.LastWindowLocation = this.Location;
             m_AppSettings.LastWindowSize = this.Size;
-            m_AppSettings.RememberUser = checkBoxRememberMe.Checked;
+            m_AppSettings.RememberUser = this.checkBoxRememberMe.Checked;
 
             if(m_AppSettings.RememberUser)
             {
@@ -101,12 +105,21 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             m_FacebookApp = new FacebookApp(m_LoggedInUser);
             updateUserInfo(m_LoggedInUser);
             updateGeneralInfoTab(m_LoggedInUser);
-            //updateMostLikedPhotosTab(i_LoggedInUser);//the feature currently not working 
         }
 
         private void updateMostLikedPhotosTab(User i_LoggedInUser)
         {
-            IList<Photo> allPhotos = m_FacebookApp.GetUsersPhotosSortedByLikes(i_LoggedInUser);
+            IList<Photo> allPhotos;
+            try
+            {
+                allPhotos = m_FacebookApp.GetUsersPhotosSortedByLikes(i_LoggedInUser);
+            }
+            catch
+            {
+                MessageBox.Show("Failed to access your photos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
             if (allPhotos.Count > 0)
             {
                 pictureBoxFirstMostLikedPicture.Load(allPhotos[0].PictureNormalURL);
@@ -126,11 +139,17 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         private void updateUserInfo(User i_LoggedInUser)
         {
-            pictureBoxProfilePicture.Load(i_LoggedInUser.PictureNormalURL);
-            //pictureBoxCoverPhoto.Load(i_LoggedInUser.Cover.SourceURL);
-            //this.pictureBoxCoverPhoto.BackgroundImage = m_LoggedInUser.Albums[0].Photos[0].ImageNormal;
-
             labelName.Text = i_LoggedInUser.Name;
+            pictureBoxProfilePicture.Load(i_LoggedInUser.PictureNormalURL);
+
+            try
+            {    
+                pictureBoxCoverPhoto.Load(i_LoggedInUser.Cover.SourceURL);
+            }
+            catch
+            {
+                MessageBox.Show("Failed to load your cover photo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void updateGeneralInfoTab(User i_LoggedInUser)
@@ -144,7 +163,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             foreach (Checkin checkin in i_Checkins)
             {
-                listBoxCheckins.Items.Add(string.Format("{0},{1} At {2}", checkin.Place.Location.Country, checkin.Place.Location.City, checkin.CreatedTime.Value.ToShortDateString()));
+                listBoxCheckins.Items.Add(string.Format("{0},{1} At {2}", checkin.Place.Location.City, checkin.Place.Location.Country, checkin.CreatedTime.Value.ToShortDateString()));
             }
         }
 
@@ -196,8 +215,15 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
             if (friendToRate != null)
             {
-                pictureBoxRatingFriendProfilePic.Load(friendToRate.PictureNormalURL);
-                updateFriendDataLabels(m_FacebookApp.GetFriendDataByName(i_FriendName));
+                pictureBoxRatingFriendProfilePic.Load(friendToRate.PictureLargeURL);
+                try
+                {
+                    updateFriendDataLabels(m_FacebookApp.GetFriendDataByName(i_FriendName));
+                }
+                catch
+                {
+                    MessageBox.Show("Failed to access your friend's data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -211,10 +237,15 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             labelRatinTabPagesCount.Text = friendData.SharedPages.ToString();
             labelRatingTabGroupsCount.Text = friendData.SharedGroups.ToString();
             friendRank = m_FacebookApp.GetFriendRankInFriendsList(friendData.Name);
-            
-            labelRatingTabRankMessage.Text = friendRank > 0 ?
-                string.Format("is ranked {1}# in your friends!", friendData.Name, friendRank) :
-                "is not on your friends list.";
+
+            labelRatingTabRankMessage.Text = string.Format("is ranked {1}# in your friends!", friendData.Name, friendRank);
+
+        }
+
+        private void buttonShowTop3Photos_Click(object sender, EventArgs e)
+        {
+            updateMostLikedPhotosTab(m_LoggedInUser);
+            buttonShowTop3Photos.Visible = false;
         }
     }
 }

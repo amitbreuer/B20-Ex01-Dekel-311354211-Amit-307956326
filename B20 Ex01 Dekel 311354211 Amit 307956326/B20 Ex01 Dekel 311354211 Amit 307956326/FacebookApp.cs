@@ -15,24 +15,29 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
     {
         public User m_LoggedInUser { get; set; }
         public List<FriendData> m_FriendsDataList { get; set; }
+        public bool FriendsDataListWasFetched { get; set; }
 
         public FacebookApp(User m_LoggedInUser)
         {
             this.m_LoggedInUser = m_LoggedInUser;
-            GetSortedFriendsDataList();
+            this.FriendsDataListWasFetched = false;
         }
 
-        public void GetSortedFriendsDataList()
+        public void FetchSortedFriendsDataList()
         {
-            m_FriendsDataList = new List<FriendData>();
-
-            foreach (User friend in m_LoggedInUser.Friends)
+            if(!FriendsDataListWasFetched)
             {
-                FriendData friendData = new FriendData(m_LoggedInUser, friend);
-                m_FriendsDataList.Add(friendData);
-            }
+                m_FriendsDataList = new List<FriendData>();
 
-            m_FriendsDataList.Sort();
+                foreach (User friend in m_LoggedInUser.Friends)
+                {
+                    FriendData friendData = new FriendData(m_LoggedInUser, friend);
+                    m_FriendsDataList.Add(friendData);
+                }
+
+                m_FriendsDataList.Sort();
+                FriendsDataListWasFetched = true;
+            }
         }
 
         public int GetFriendRankInFriendsList(string i_FriendName)
@@ -92,6 +97,11 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         public FriendData GetFriendDataByName(string i_FriendName)
         {
             FriendData o_FriendData = null;
+            if (!FriendsDataListWasFetched)
+            {
+                FetchSortedFriendsDataList();
+                FriendsDataListWasFetched = true;
+            }
 
             foreach (FriendData friendData in m_FriendsDataList)
             {

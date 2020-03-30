@@ -58,7 +58,6 @@
             this.labelSecondMostLikedPicture = new System.Windows.Forms.Label();
             this.pictureBoxFirstMostLikedPicture = new System.Windows.Forms.PictureBox();
             this.pictureBoxSecondMostLikedPicture = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.tabGeneralInfo = new System.Windows.Forms.TabPage();
             this.listViewFeed = new System.Windows.Forms.ListView();
             this.label8 = new System.Windows.Forms.Label();
@@ -66,7 +65,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.listBoxFriends = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.tabControlInfo = new System.Windows.Forms.TabControl();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.buttonShowTop3Photos = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).BeginInit();
             this.tabRatingFreinds.SuspendLayout();
@@ -79,7 +79,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFirstMostLikedPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSecondMostLikedPicture)).BeginInit();
             this.tabGeneralInfo.SuspendLayout();
-            this.tabControlInfo.SuspendLayout();
+            this.tabControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // checkBoxRememberMe
@@ -288,6 +288,7 @@
             // 
             // tabTop3Photos
             // 
+            this.tabTop3Photos.Controls.Add(this.buttonShowTop3Photos);
             this.tabTop3Photos.Controls.Add(this.labelThirdMostLikedPicture);
             this.tabTop3Photos.Controls.Add(this.pictureBoxThirdMostLikedPicture);
             this.tabTop3Photos.Controls.Add(this.pictureBox8);
@@ -297,7 +298,6 @@
             this.tabTop3Photos.Controls.Add(this.labelSecondMostLikedPicture);
             this.tabTop3Photos.Controls.Add(this.pictureBoxFirstMostLikedPicture);
             this.tabTop3Photos.Controls.Add(this.pictureBoxSecondMostLikedPicture);
-            this.tabTop3Photos.Controls.Add(this.label1);
             this.tabTop3Photos.Location = new System.Drawing.Point(4, 37);
             this.tabTop3Photos.Name = "tabTop3Photos";
             this.tabTop3Photos.Padding = new System.Windows.Forms.Padding(3);
@@ -393,15 +393,6 @@
             this.pictureBoxSecondMostLikedPicture.TabIndex = 41;
             this.pictureBoxSecondMostLikedPicture.TabStop = false;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(502, 39);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(179, 25);
-            this.label1.TabIndex = 40;
-            this.label1.Text = "Most Liked Photos:";
-            // 
             // tabGeneralInfo
             // 
             this.tabGeneralInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -473,27 +464,37 @@
             this.label2.TabIndex = 33;
             this.label2.Text = "Feed:";
             // 
-            // tabControlInfo
+            // tabControl
             // 
-            this.tabControlInfo.AccessibleName = "";
-            this.tabControlInfo.Appearance = System.Windows.Forms.TabAppearance.Buttons;
-            this.tabControlInfo.Controls.Add(this.tabGeneralInfo);
-            this.tabControlInfo.Controls.Add(this.tabTop3Photos);
-            this.tabControlInfo.Controls.Add(this.tabRatingFreinds);
-            this.tabControlInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabControlInfo.HotTrack = true;
-            this.tabControlInfo.Location = new System.Drawing.Point(3, 290);
-            this.tabControlInfo.Name = "tabControlInfo";
-            this.tabControlInfo.SelectedIndex = 0;
-            this.tabControlInfo.Size = new System.Drawing.Size(1218, 593);
-            this.tabControlInfo.TabIndex = 30;
+            this.tabControl.AccessibleName = "";
+            this.tabControl.Appearance = System.Windows.Forms.TabAppearance.Buttons;
+            this.tabControl.Controls.Add(this.tabGeneralInfo);
+            this.tabControl.Controls.Add(this.tabTop3Photos);
+            this.tabControl.Controls.Add(this.tabRatingFreinds);
+            this.tabControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabControl.HotTrack = true;
+            this.tabControl.Location = new System.Drawing.Point(3, 290);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(1218, 593);
+            this.tabControl.TabIndex = 30;
+            // 
+            // buttonShowTop3Photos
+            // 
+            this.buttonShowTop3Photos.Location = new System.Drawing.Point(496, 38);
+            this.buttonShowTop3Photos.Name = "buttonShowTop3Photos";
+            this.buttonShowTop3Photos.Size = new System.Drawing.Size(219, 39);
+            this.buttonShowTop3Photos.TabIndex = 58;
+            this.buttonShowTop3Photos.Text = "Show Top 3 Photos";
+            this.buttonShowTop3Photos.UseVisualStyleBackColor = true;
+            this.buttonShowTop3Photos.Click += new System.EventHandler(this.buttonShowTop3Photos_Click);
             // 
             // form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1218, 894);
-            this.Controls.Add(this.tabControlInfo);
+            this.Controls.Add(this.tabControl);
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.pictureBoxProfilePicture);
             this.Controls.Add(this.buttonLogin);
@@ -516,7 +517,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSecondMostLikedPicture)).EndInit();
             this.tabGeneralInfo.ResumeLayout(false);
             this.tabGeneralInfo.PerformLayout();
-            this.tabControlInfo.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -547,7 +548,6 @@
         private System.Windows.Forms.Label labelSecondMostLikedPicture;
         private System.Windows.Forms.PictureBox pictureBoxFirstMostLikedPicture;
         private System.Windows.Forms.PictureBox pictureBoxSecondMostLikedPicture;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage tabGeneralInfo;
         private System.Windows.Forms.ListView listViewFeed;
         private System.Windows.Forms.Label label8;
@@ -555,13 +555,14 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ListBox listBoxFriends;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TabControl tabControlInfo;
+        private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.Label labelRatingTabGroupsCount;
         private System.Windows.Forms.Label labelRatinTabPagesCount;
         private System.Windows.Forms.Label labelRatingTabCheckinsCount;
         private System.Windows.Forms.Label labelRatingTabCommentsCount;
         private System.Windows.Forms.Label labelRatingTabLikesCount;
         private System.Windows.Forms.Label labelRatingTabRankMessage;
+        private System.Windows.Forms.Button buttonShowTop3Photos;
     }
 }
 

@@ -44,10 +44,17 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         public void SaveToFile()
         {
-            using (Stream stream = new FileStream("AppSettings.xml", FileMode.Create))
+            if(this.RememberUser)
             {
-                XmlSerializer serializer = new XmlSerializer(this.GetType());
-                serializer.Serialize(stream, this);
+                using (Stream stream = new FileStream("AppSettings.xml", FileMode.Create))
+                {
+                    XmlSerializer serializer = new XmlSerializer(this.GetType());
+                    serializer.Serialize(stream, this);
+                }
+            }
+            else
+            {
+                File.Delete("AppSettings.xml");
             }
         }
     }
