@@ -14,7 +14,9 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
     public class FacebookApp
     {
         public User m_LoggedInUser { get; set; }
+
         public List<FriendData> m_FriendsDataList { get; set; }
+
         public bool FriendsDataListWasFetched { get; set; }
 
         public FacebookApp(User m_LoggedInUser)
@@ -25,7 +27,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         public void FetchSortedFriendsDataList()
         {
-            if(!FriendsDataListWasFetched)
+            if (!FriendsDataListWasFetched)
             {
                 m_FriendsDataList = new List<FriendData>();
 
@@ -44,7 +46,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             int o_FriendRank = -1;
 
-            foreach(FriendData friendData in m_FriendsDataList)
+            foreach (FriendData friendData in m_FriendsDataList)
             {
                 if (friendData.Name.Equals(i_FriendName))
                 {
@@ -59,6 +61,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             IList<Photo> allPhotos = new FacebookObjectCollection<Photo>();
             FacebookObjectCollection<Album> albums = i_LoggedInUser.Albums;
+
             foreach (Album album in albums)
             {
                 foreach (Photo photo in album.Photos)
@@ -76,6 +79,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             WebClient webClient = new WebClient();
             byte[] _data = webClient.DownloadData(i_PictureURL);
             MemoryStream memoryStream = new MemoryStream(_data);
+
             return Image.FromStream(memoryStream);
         }
 
@@ -97,6 +101,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         public FriendData GetFriendDataByName(string i_FriendName)
         {
             FriendData o_FriendData = null;
+
             if (!FriendsDataListWasFetched)
             {
                 FetchSortedFriendsDataList();

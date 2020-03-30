@@ -13,8 +13,11 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
     public class AppSettings
     {
         public Point LastWindowLocation { get; set; }
+
         public Size LastWindowSize { get; set; }
+
         public bool RememberUser { get; set; }
+
         public string LastAccessToken { get; set; }
 
         public AppSettings()
@@ -25,12 +28,12 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             LastAccessToken = string.Empty;
         }
 
-        public static AppSettings LoadFromFile()
+        public static AppSettings LoadSettingsFromFile()
         {
             AppSettings o_AppSettings = new AppSettings();
 
             if (File.Exists("AppSettings.xml"))
-            {    
+            {
                 using (Stream stream = new FileStream("AppSettings.xml", FileMode.Open))
                 {
                     stream.Position = 0;
@@ -39,12 +42,12 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                 }
             }
 
-            return o_AppSettings; 
+            return o_AppSettings;
         }
 
-        public void SaveToFile()
+        public void SaveSettingsToFile()
         {
-            if(this.RememberUser)
+            if (this.RememberUser)
             {
                 using (Stream stream = new FileStream("AppSettings.xml", FileMode.Create))
                 {

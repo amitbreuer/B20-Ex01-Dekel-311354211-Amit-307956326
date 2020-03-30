@@ -1,6 +1,6 @@
 ﻿namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
-    partial class form
+    public partial class form
     {
         /// <summary>
         /// Required designer variable.
@@ -17,6 +17,7 @@
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -466,7 +467,7 @@
             // 
             // tabControl
             // 
-            this.tabControl.AccessibleName = "";
+            this.tabControl.AccessibleName = string.Empty;
             this.tabControl.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.tabControl.Controls.Add(this.tabGeneralInfo);
             this.tabControl.Controls.Add(this.tabTop3Photos);
@@ -565,4 +566,3 @@
         private System.Windows.Forms.Button buttonShowTop3Photos;
     }
 }
-

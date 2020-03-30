@@ -11,10 +11,15 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
     public class FriendData : IComparable
     {
         public string Name { get; set; }
+
         public int Likes { get; set; }
+
         public int Comments { get; set; }
+
         public int SharedCheckins { get; set; }
+
         public int SharedPages { get; set; }
+
         public int SharedGroups { get; set; }
 
         public FriendData(User i_User, User i_Friend)
@@ -93,7 +98,8 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             foreach (PropertyInfo propertyInfo in thisType.GetProperties())
             {
                 object propertyValue = propertyInfo.GetValue(this, null);
-                if(!propertyInfo.Name.Equals("Name"))
+
+                if (!propertyInfo.Name.Equals("Name"))
                 {
                     intValue = int.Parse(propertyValue.ToString());
                     o_Rank += 3 * intValue;
