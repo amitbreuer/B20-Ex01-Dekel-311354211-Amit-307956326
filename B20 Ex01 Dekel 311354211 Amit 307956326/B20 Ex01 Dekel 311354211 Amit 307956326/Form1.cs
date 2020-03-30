@@ -24,6 +24,10 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             InitializeComponent();
             m_AppSettings = AppSettings.LoadFromFile();
+
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = m_AppSettings.LastWindowLocation;
+            this.Size = m_AppSettings.LastWindowSize;
         }
 
         protected override void OnShown(EventArgs e)
@@ -91,10 +95,6 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             updateDisplay(m_LoginResult);
         }
 
-        private void resetDisplay()
-        {
-        }
-
         private void updateDisplay(LoginResult i_LoggedInResult)
         {
             m_LoggedInUser = i_LoggedInResult.LoggedInUser;
@@ -102,7 +102,6 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             updateUserInfo(m_LoggedInUser);
             updateGeneralInfoTab(m_LoggedInUser);
             //updateMostLikedPhotosTab(i_LoggedInUser);//the feature currently not working 
-
         }
 
         private void updateMostLikedPhotosTab(User i_LoggedInUser)
@@ -123,7 +122,6 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                 pictureBoxThirdMostLikedPicture.Load(allPhotos[2].PictureNormalURL);
                 labelThirdMostLikedPicture.Text = allPhotos[2].LikedBy.Count.ToString();
             }
-
         }
 
         private void updateUserInfo(User i_LoggedInUser)
@@ -148,7 +146,6 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             {
                 listBoxCheckins.Items.Add(string.Format("{0},{1} At {2}", checkin.Place.Location.Country, checkin.Place.Location.City, checkin.CreatedTime.Value.ToShortDateString()));
             }
-
         }
 
         private void addFriendsToFriendsLists(FacebookObjectCollection<User> i_Friends)

@@ -21,14 +21,14 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             foreach (Post post in i_User.Posts)
             {
-                if (post.LikedBy.Contains(i_Friend))
+                if (isUserInCollectionOfUser(i_Friend, post.LikedBy))
                 {
                     Likes++;
                 }
-
+                
                 foreach (Comment comment in post.Comments)
                 {
-                    if (comment.From.Equals(i_Friend))
+                    if (comment.From.Name.Equals(i_Friend.Name))
                     {
                         Comments++;
                     }
@@ -58,6 +58,22 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                     SharedGroups++;
                 }
             }
+        }
+
+        private static bool isUserInCollectionOfUser(User i_User, ICollection<User> i_CollectionOfUsers)
+        {
+            bool exists = false;
+
+            foreach (User user in i_CollectionOfUsers)
+            {
+                if (user.Name.Equals(i_User.Name))
+                {
+                    exists = true;
+                    break;
+                }
+            }
+
+            return exists;
         }
 
         public int CompareTo(object obj)

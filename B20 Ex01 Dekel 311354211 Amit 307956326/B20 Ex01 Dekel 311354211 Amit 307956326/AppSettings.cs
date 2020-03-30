@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
-    class AppSettings
+    public class AppSettings
     {
         public Point LastWindowLocation { get; set; }
         public Size LastWindowSize { get; set; }
@@ -19,10 +19,8 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         public AppSettings()
         {
-            LastWindowSize = new Size(1240,950);
-            LastWindowLocation = new Point(
-                (Screen.PrimaryScreen.WorkingArea.Width - this.LastWindowSize.Width) / 2 ,
-                (Screen.PrimaryScreen.WorkingArea.Height - this.LastWindowSize.Height) / 2);
+            LastWindowSize = new Size(830, 610);
+            LastWindowLocation = new Point(200, 50);
             RememberUser = false;
             LastAccessToken = string.Empty;
         }
@@ -31,9 +29,9 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             AppSettings o_AppSettings = new AppSettings();
 
-            if (File.Exists("App Settings.xml"))
+            if (File.Exists("AppSettings.xml"))
             {    
-                using (Stream stream = new FileStream("App Settings.xml", FileMode.Open))
+                using (Stream stream = new FileStream("AppSettings.xml", FileMode.Open))
                 {
                     stream.Position = 0;
                     XmlSerializer serializer = new XmlSerializer(typeof(AppSettings));
@@ -46,7 +44,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         public void SaveToFile()
         {
-            using (Stream stream = new FileStream("App Settings.xml", FileMode.Create))
+            using (Stream stream = new FileStream("AppSettings.xml", FileMode.Create))
             {
                 XmlSerializer serializer = new XmlSerializer(this.GetType());
                 serializer.Serialize(stream, this);
