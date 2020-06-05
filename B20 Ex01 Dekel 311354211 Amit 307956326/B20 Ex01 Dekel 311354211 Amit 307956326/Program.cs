@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
-    public static class Program
+    public static class x
     {
         /// <summary>
         /// The main entry point for the application.
@@ -16,7 +16,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new form());
+            Application.Run(new FacebookForm());
         }
     }
 }

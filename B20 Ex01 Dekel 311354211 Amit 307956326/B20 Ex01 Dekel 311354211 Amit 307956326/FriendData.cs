@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using FacebookWrapper.ObjectModel;
 
 namespace B20_Ex01_Dekel_311354211_Amit_307956326
@@ -12,15 +9,15 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
     {
         public string Name { get; set; }
 
-        public int Likes { get; set; }
+        public int NumberOfLikes { get; set; }
 
-        public int Comments { get; set; }
+        public int NumberOfComments { get; set; }
 
-        public int SharedCheckins { get; set; }
+        public int NumberOfSharedCheckins { get; set; }
 
-        public int SharedPages { get; set; }
+        public int NumberOfSharedPages { get; set; }
 
-        public int SharedGroups { get; set; }
+        public int NumberOfSharedGroups { get; set; }
 
         public FriendData(User i_User, User i_Friend)
         {
@@ -28,14 +25,14 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             {
                 if (isUserInCollectionOfUser(i_Friend, post.LikedBy))
                 {
-                    Likes++;
+                    NumberOfLikes++;
                 }
 
                 foreach (Comment comment in post.Comments)
                 {
                     if (comment.From.Name.Equals(i_Friend.Name))
                     {
-                        Comments++;
+                        NumberOfComments++;
                     }
                 }
             }
@@ -44,7 +41,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             {
                 if (i_Friend.Checkins.Contains(checkin))
                 {
-                    SharedCheckins++;
+                    NumberOfSharedCheckins++;
                 }
             }
 
@@ -52,7 +49,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             {
                 if (i_Friend.LikedPages.Contains(page))
                 {
-                    SharedPages++;
+                    NumberOfSharedPages++;
                 }
             }
 
@@ -60,7 +57,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             {
                 if (i_Friend.Groups.Contains(group))
                 {
-                    SharedGroups++;
+                    NumberOfSharedGroups++;
                 }
             }
         }

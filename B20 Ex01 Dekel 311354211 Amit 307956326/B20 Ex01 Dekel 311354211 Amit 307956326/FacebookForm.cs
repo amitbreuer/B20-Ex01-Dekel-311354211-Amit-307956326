@@ -1,67 +1,55 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FacebookWrapper;
 
 namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
-    public partial class form : Form
+    public partial class FacebookForm : Form
     {
-        private User m_LoggedInUser;
-        private FacebookApp m_FacebookApp;
-        private AppSettings m_AppSettings;
-        private LoginResult m_LoginResult;
-
-        public form()
+        private FacebookAppFacade m_FacebookAppFacade;
+        
+        public FacebookForm()
         {
             InitializeComponent();
-            m_AppSettings = AppSettings.LoadSettingsFromFile();
 
+            m_FacebookAppFacade = new FacebookAppFacade();
+            m_FacebookAppFacade.facebookConnectionNotifier += updateDisplay;
+
+            updateFormSettings();
+        }
+
+        private void updateFormSettings()
+        {
             this.StartPosition = FormStartPosition.Manual;
-            this.Location = m_AppSettings.LastWindowLocation;
-            this.Size = m_AppSettings.LastWindowSize;
-            this.checkBoxRememberMe.Checked = m_AppSettings.RememberUser;
+            this.Location = m_FacebookAppFacade.AppSettings.LastWindowLocation;
+            this.Size = m_FacebookAppFacade.AppSettings.LastWindowSize;
+            this.checkBoxRememberMe.Checked = m_FacebookAppFacade.AppSettings.RememberUser;
         }
 
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
 
-            if (m_AppSettings.RememberUser && !string.IsNullOrEmpty(m_AppSettings.LastAccessToken))
-            {
-                m_LoginResult = FacebookService.Connect(m_AppSettings.LastAccessToken);
-                updateDisplay(m_LoginResult);
-                buttonLogin.Text = "Logout";
-            }
+            m_FacebookAppFacade.ConnectToFacebook();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
 
-            m_AppSettings.LastWindowLocation = this.Location;
-            m_AppSettings.LastWindowSize = this.Size;
-            m_AppSettings.RememberUser = this.checkBoxRememberMe.Checked;
+            m_FacebookAppFacade.AppSettings.LastWindowLocation = this.Location;
+            m_FacebookAppFacade.AppSettings.LastWindowSize = this.Size;
+            m_FacebookAppFacade.AppSettings.RememberUser = this.checkBoxRememberMe.Checked;
 
-            if (m_AppSettings.RememberUser)
+            if (!this.checkBoxRememberMe.Checked)
             {
-                m_AppSettings.LastAccessToken = m_LoginResult.AccessToken;
-            }
-            else
-            {
-                m_AppSettings.LastAccessToken = null;
+                m_FacebookAppFacade.AppSettings.LastAccessToken = null;
             }
 
-            m_AppSettings.SaveSettingsToFile();
+            m_FacebookAppFacade.SaveSettingsToFile();
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
@@ -70,8 +58,8 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             {
                 FacebookWrapper.FacebookService.Logout(() => { });
                 buttonLogin.Text = "Login";
-                m_FacebookApp = null;
-                form NewForm = new form();
+                m_FacebookAppFacade = null;
+                FacebookForm NewForm = new FacebookForm();
                 NewForm.Show();
                 this.Dispose(false);
                 return;
@@ -101,7 +89,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         private void updateDisplay(LoginResult i_LoggedInResult)
         {
             m_LoggedInUser = i_LoggedInResult.LoggedInUser;
-            m_FacebookApp = new FacebookApp(m_LoggedInUser);
+            m_FacebookAppFacade = new FacebookAppFacade(m_LoggedInUser);
             updateUserInfo(m_LoggedInUser);
             updateGeneralInfoTab(m_LoggedInUser);
         }
@@ -112,7 +100,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
             try
             {
-                allPhotos = m_FacebookApp.GetUsersPhotosSortedByLikes(i_LoggedInUser);
+                allPhotos = m_FacebookAppFacade.GetUsersPhotosSortedByLikes();
             }
             catch
             {
@@ -141,6 +129,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         private void updateUserInfo(User i_LoggedInUser)
         {
+            this.Text = string.Format("Welcome {0}!", i_LoggedInUser.Name);
             labelName.Text = i_LoggedInUser.Name;
             pictureBoxProfilePicture.Load(i_LoggedInUser.PictureNormalURL);
 
@@ -195,7 +184,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
                 if (post.PictureURL != null && post.PictureURL.Length > 0)
                 {
-                    Image postImage = m_FacebookApp.CreateImageFromUrl(post.PictureURL);
+                    Image postImage = m_FacebookAppFacade.CreateImageFromUrl(post.PictureURL);
                     imageList.Images.Add(post.Id, postImage);
                     postViewItem.ImageKey = post.Id;
                 }
@@ -210,19 +199,19 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         private void listBoxRatingFriendsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            getSelectedFriendData(listBoxRatingFriendsList.SelectedItem.ToString());
+            fetchAndUpdateSelectedFriendData(listBoxRatingFriendsList.SelectedItem.ToString());
         }
 
-        private void getSelectedFriendData(string i_FriendName)
+        private void fetchAndUpdateSelectedFriendData(string i_FriendName)
         {
-            User friendToRate = m_FacebookApp.GetFriendUser(i_FriendName);
+            User friendToRate = m_FacebookAppFacade.GetFriendUser(i_FriendName);
 
             if (friendToRate != null)
             {
                 pictureBoxRatingFriendProfilePic.Load(friendToRate.PictureLargeURL);
                 try
                 {
-                    updateFriendDataDisplay(m_FacebookApp.GetFriendDataByName(i_FriendName));
+                    updateFriendDataDisplay(m_FacebookAppFacade.GetFriendDataByName(i_FriendName));
                 }
                 catch
                 {
@@ -235,12 +224,12 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             int friendRank;
 
-            labelRatingTabLikesCount.Text = friendData.Likes.ToString();
-            labelRatingTabCommentsCount.Text = friendData.Comments.ToString();
-            labelRatingTabCheckinsCount.Text = friendData.SharedCheckins.ToString();
-            labelRatinTabPagesCount.Text = friendData.SharedPages.ToString();
-            labelRatingTabGroupsCount.Text = friendData.SharedGroups.ToString();
-            friendRank = m_FacebookApp.GetFriendRankInFriendsList(friendData.Name);
+            labelRatingTabLikesCount.Text = friendData.NumberOfLikes.ToString();
+            labelRatingTabCommentsCount.Text = friendData.NumberOfComments.ToString();
+            labelRatingTabCheckinsCount.Text = friendData.NumberOfSharedCheckins.ToString();
+            labelRatinTabPagesCount.Text = friendData.NumberOfSharedPages.ToString();
+            labelRatingTabGroupsCount.Text = friendData.NumberOfSharedGroups.ToString();
+            friendRank = m_FacebookAppFacade.GetFriendRankInFriendsList(friendData.Name);
             labelRatingTabRankMessage.Text = string.Format("is ranked {1}# in your friends!", friendData.Name, friendRank);
         }
 

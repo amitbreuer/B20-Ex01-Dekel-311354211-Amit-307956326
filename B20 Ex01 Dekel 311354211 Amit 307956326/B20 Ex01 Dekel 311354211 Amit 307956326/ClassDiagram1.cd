@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="B20_Ex01_Dekel_311354211_Amit_307956326.AppSettings" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACEAAAAAAAIAAAAAAAAAAgAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>AppSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="B20_Ex01_Dekel_311354211_Amit_307956326.FacebookApp">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACCAAAAAYgAAAAAAAAIAABAAAAAAAAAoAAAAAAA=</HashCode>
+      <FileName>FacebookApp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="B20_Ex01_Dekel_311354211_Amit_307956326.FacebookForm">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AACJIBJSgSALCREkAAiBAeMTAFKIAIGgBgigAYAAgAA=</HashCode>
+      <FileName>FacebookForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="B20_Ex01_Dekel_311354211_Amit_307956326.FriendData" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAQAAAAAAAQACAIAAAACAAEAAAQAIAA=</HashCode>
+      <FileName>FriendData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="B20_Ex01_Dekel_311354211_Amit_307956326.x" Collapsed="true">
+    <Position X="4" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="B20_Ex01_Dekel_311354211_Amit_307956326.Properties.Resources" Collapsed="true">
+    <Position X="4" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACwAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="B20_Ex01_Dekel_311354211_Amit_307956326.Properties.Settings">
+    <Position X="4" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

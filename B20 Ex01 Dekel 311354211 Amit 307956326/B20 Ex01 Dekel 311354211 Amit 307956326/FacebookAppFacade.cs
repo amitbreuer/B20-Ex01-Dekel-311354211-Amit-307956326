@@ -7,38 +7,62 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
 
 namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
-    public class FacebookApp
+
+    public class FacebookAppFacade
     {
-        public User m_LoggedInUser { get; set; }
+        ////////////////////////////////////////////////////
+        public delegate void FacebookConnectionNotifier(LoggedInUserData i_userData); 
+        ////////////////////////////////////////////////////
+        
+        public User LoggedInUser { get; set; }
 
-        public List<FriendData> m_FriendsDataList { get; set; }
+        public List<FriendData> FriendsDataList { get; set; }
 
-        public bool FriendsDataListWasFetched { get; set; }
+        private static bool s_FriendsDataListWasFetched = false;
 
-        public FacebookApp(User m_LoggedInUser)
+        public AppSettings AppSettings { get; set; }
+
+        private LoginResult m_LoginResult;
+
+        public FacebookAppFacade()
         {
-            this.m_LoggedInUser = m_LoggedInUser;
-            this.FriendsDataListWasFetched = false;
+            AppSettings = AppSettings.LoadSettingsFromFile();
+        }
+
+        public void ConnectToFacebook()
+        {
+            if (AppSettings.RememberUser && !string.IsNullOrEmpty(AppSettings.LastAccessToken))
+            {
+                m_LoginResult = FacebookService.Connect(AppSettings.LastAccessToken);
+                //updateDisplay(m_LoginResult);
+                //buttonLogin.Text = "Logout";
+            }
+        }
+
+        public void SaveSettingsToFile()
+        {
+            AppSettings.SaveSettingsToFile();
         }
 
         public void FetchSortedFriendsDataList()
         {
-            if (!FriendsDataListWasFetched)
+            if (!s_FriendsDataListWasFetched)
             {
-                m_FriendsDataList = new List<FriendData>();
+                FriendsDataList = new List<FriendData>();
 
-                foreach (User friend in m_LoggedInUser.Friends)
+                foreach (User friend in LoggedInUser.Friends)
                 {
-                    FriendData friendData = new FriendData(m_LoggedInUser, friend);
-                    m_FriendsDataList.Add(friendData);
+                    FriendData friendData = new FriendData(LoggedInUser, friend);
+                    FriendsDataList.Add(friendData);
                 }
 
-                m_FriendsDataList.Sort();
-                FriendsDataListWasFetched = true;
+                FriendsDataList.Sort();
+                s_FriendsDataListWasFetched = true;
             }
         }
 
@@ -46,21 +70,21 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             int o_FriendRank = -1;
 
-            foreach (FriendData friendData in m_FriendsDataList)
+            foreach (FriendData friendData in FriendsDataList)
             {
                 if (friendData.Name.Equals(i_FriendName))
                 {
-                    o_FriendRank = m_FriendsDataList.IndexOf(friendData) + 1;
+                    o_FriendRank = FriendsDataList.IndexOf(friendData) + 1;
                 }
             }
 
             return o_FriendRank;
         }
 
-        public IList<Photo> GetUsersPhotosSortedByLikes(User i_LoggedInUser)
+        public IList<Photo> GetUsersPhotosSortedByLikes()
         {
             IList<Photo> allPhotos = new FacebookObjectCollection<Photo>();
-            FacebookObjectCollection<Album> albums = i_LoggedInUser.Albums;
+            FacebookObjectCollection<Album> albums = LoggedInUser.Albums;
 
             foreach (Album album in albums)
             {
@@ -87,7 +111,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             User friendToRate = null;
 
-            foreach (User friend in m_LoggedInUser.Friends)
+            foreach (User friend in LoggedInUser.Friends)
             {
                 if (friend.Name.Equals(i_FriendName))
                 {
@@ -102,13 +126,13 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             FriendData o_FriendData = null;
 
-            if (!FriendsDataListWasFetched)
+            if (!s_FriendsDataListWasFetched)
             {
                 FetchSortedFriendsDataList();
-                FriendsDataListWasFetched = true;
+                s_FriendsDataListWasFetched = true;
             }
 
-            foreach (FriendData friendData in m_FriendsDataList)
+            foreach (FriendData friendData in FriendsDataList)
             {
                 if (friendData.Name.Equals(i_FriendName))
                 {
