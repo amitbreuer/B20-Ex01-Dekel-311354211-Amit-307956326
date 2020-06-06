@@ -50,6 +50,7 @@
             this.labelRatingTabCommentsMessage = new System.Windows.Forms.Label();
             this.labelRatingTabLikesMessage = new System.Windows.Forms.Label();
             this.tabTop3Photos = new System.Windows.Forms.TabPage();
+            this.buttonShowTop3Photos = new System.Windows.Forms.Button();
             this.labelThirdMostLikedPicture = new System.Windows.Forms.Label();
             this.pictureBoxThirdMostLikedPicture = new System.Windows.Forms.PictureBox();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
@@ -67,7 +68,6 @@
             this.listBoxFriends = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
-            this.buttonShowTop3Photos = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).BeginInit();
             this.tabRatingFreinds.SuspendLayout();
@@ -307,6 +307,16 @@
             this.tabTop3Photos.Text = "Top 3 Liked Photos";
             this.tabTop3Photos.UseVisualStyleBackColor = true;
             // 
+            // buttonShowTop3Photos
+            // 
+            this.buttonShowTop3Photos.Location = new System.Drawing.Point(496, 38);
+            this.buttonShowTop3Photos.Name = "buttonShowTop3Photos";
+            this.buttonShowTop3Photos.Size = new System.Drawing.Size(219, 39);
+            this.buttonShowTop3Photos.TabIndex = 58;
+            this.buttonShowTop3Photos.Text = "Show Top 3 Photos";
+            this.buttonShowTop3Photos.UseVisualStyleBackColor = true;
+            this.buttonShowTop3Photos.Click += new System.EventHandler(this.buttonShowTop3Photos_Click);
+            // 
             // labelThirdMostLikedPicture
             // 
             this.labelThirdMostLikedPicture.AutoSize = true;
@@ -467,7 +477,7 @@
             // 
             // tabControl
             // 
-            this.tabControl.AccessibleName = string.Empty;
+            this.tabControl.AccessibleName = "";
             this.tabControl.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.tabControl.Controls.Add(this.tabGeneralInfo);
             this.tabControl.Controls.Add(this.tabTop3Photos);
@@ -480,17 +490,7 @@
             this.tabControl.Size = new System.Drawing.Size(1218, 593);
             this.tabControl.TabIndex = 30;
             // 
-            // buttonShowTop3Photos
-            // 
-            this.buttonShowTop3Photos.Location = new System.Drawing.Point(496, 38);
-            this.buttonShowTop3Photos.Name = "buttonShowTop3Photos";
-            this.buttonShowTop3Photos.Size = new System.Drawing.Size(219, 39);
-            this.buttonShowTop3Photos.TabIndex = 58;
-            this.buttonShowTop3Photos.Text = "Show Top 3 Photos";
-            this.buttonShowTop3Photos.UseVisualStyleBackColor = true;
-            this.buttonShowTop3Photos.Click += new System.EventHandler(this.buttonShowTop3Photos_Click);
-            // 
-            // form
+            // FacebookForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -501,7 +501,7 @@
             this.Controls.Add(this.buttonLogin);
             this.Controls.Add(this.checkBoxRememberMe);
             this.Controls.Add(this.pictureBoxCoverPhoto);
-            this.Name = "form";
+            this.Name = "FacebookForm";
             this.Text = "Welcome!";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).EndInit();

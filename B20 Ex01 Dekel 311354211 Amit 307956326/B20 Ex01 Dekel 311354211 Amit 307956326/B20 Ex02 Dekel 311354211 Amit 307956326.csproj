@@ -65,6 +65,7 @@
     <Compile Include="FriendData.cs" />
     <Compile Include="FacebookAppFacade.cs" />
     <Compile Include="LoggedInUserData.cs" />
+    <Compile Include="PhotoData.cs" />
     <Compile Include="PostData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

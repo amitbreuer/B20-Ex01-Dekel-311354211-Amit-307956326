@@ -19,8 +19,12 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         public int NumberOfSharedGroups { get; set; }
 
+        public string ProfilePictureUrl { get; set; }
+
         public FriendData(User i_User, User i_Friend)
         {
+            this.ProfilePictureUrl = i_Friend.PictureLargeURL;
+
             foreach (Post post in i_User.Posts)
             {
                 if (isUserInCollectionOfUser(i_Friend, post.LikedBy))

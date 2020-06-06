@@ -10,15 +10,14 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
     public partial class FacebookForm : Form
     {
         private FacebookAppFacade m_FacebookAppFacade;
-        
+
         public FacebookForm()
         {
             InitializeComponent();
 
             m_FacebookAppFacade = new FacebookAppFacade();
-            m_FacebookAppFacade.facebookConnectionNotifier += updateDisplay;
-
             updateFormSettings();
+            m_FacebookAppFacade.m_FacebookConnectionNotifier += updateDisplay;
         }
 
         private void updateFormSettings()
@@ -33,7 +32,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             base.OnShown(e);
 
-            m_FacebookAppFacade.ConnectToFacebook();
+            m_FacebookAppFacade.Connect();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -56,8 +55,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             if (buttonLogin.Text == "Logout")
             {
-                FacebookWrapper.FacebookService.Logout(() => { });
-                buttonLogin.Text = "Login";
+                m_FacebookAppFacade.Logout();
                 m_FacebookAppFacade = null;
                 FacebookForm NewForm = new FacebookForm();
                 NewForm.Show();
@@ -65,42 +63,95 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                 return;
             }
 
-            m_LoginResult = FacebookWrapper.FacebookService.Login(
-                "202490531010346",
-                "public_profile",
-                "email",
-                "publish_to_groups",
-                "user_age_range",
-                "user_gender",
-                "user_link",
-                "user_tagged_places",
-                "user_videos",
-                "groups_access_member_info",
-                "user_friends",
-                "user_likes",
-                "user_photos",
-                "user_posts",
-                "user_hometown");
+            m_FacebookAppFacade.Login();
+        }
 
-            updateDisplay(m_LoginResult);
+        private void updateDisplay(LoggedInUserData i_LoggedInUserData)
+        {
+            updateUserInfo(i_LoggedInUserData);
+            updateGeneralInfoTab(i_LoggedInUserData);
             buttonLogin.Text = "Logout";
         }
 
-        private void updateDisplay(LoginResult i_LoggedInResult)
+        private void updateUserInfo(LoggedInUserData i_LoggedInUserData)
         {
-            m_LoggedInUser = i_LoggedInResult.LoggedInUser;
-            m_FacebookAppFacade = new FacebookAppFacade(m_LoggedInUser);
-            updateUserInfo(m_LoggedInUser);
-            updateGeneralInfoTab(m_LoggedInUser);
+            this.Text = string.Format("Welcome {0}!", i_LoggedInUserData.Name);
+            labelName.Text = i_LoggedInUserData.Name;
+            pictureBoxProfilePicture.Load(i_LoggedInUserData.ProfilePictureUrl);
+
+            if(i_LoggedInUserData.CoverPhotoUrl != null)
+            {
+                pictureBoxCoverPhoto.Load(i_LoggedInUserData.CoverPhotoUrl);
+            }
         }
 
-        private void updateMostLikedPhotosTab(User i_LoggedInUser)
+        private void updateGeneralInfoTab(LoggedInUserData i_LoggedInUserData)
         {
-            IList<Photo> allPhotos;
+            updateUserFeed(i_LoggedInUserData.PostsData);
+            addFriendsToFriendsLists(i_LoggedInUserData.FriendsNames);
+            addCheckinsToCheckinsList(i_LoggedInUserData.Checkins);
+        }
+
+        private void addCheckinsToCheckinsList(List<string> i_Checkins)
+        {
+            foreach (string checkin in i_Checkins)
+            {
+                listBoxCheckins.Items.Add(checkin);
+            }
+        }
+
+        private void addFriendsToFriendsLists(List<string> i_FriendsNames)
+        {
+            foreach (string friendName in i_FriendsNames)
+            {
+                listBoxFriends.Items.Add(friendName);
+                listBoxRatingFriendsList.Items.Add(friendName);
+            }
+        }
+
+        private void updateUserFeed(List<PostData> i_PostData)
+        {
+            ImageList imageList = new ImageList();
+            imageList.ImageSize = new Size(200, 128);
+            listViewFeed.LargeImageList = imageList;
+
+            foreach (PostData postData in i_PostData)
+            {
+                ListViewItem postViewItem = new ListViewItem();
+
+                if (postData.Text != null)
+                {
+                    postViewItem.Text = postData.Text;
+                }
+
+                if (postData.PictureUrl != null && postData.PictureUrl.Length > 0)
+                {
+                    Image postImage = m_FacebookAppFacade.CreateImageFromUrl(postData.PictureUrl);
+                    imageList.Images.Add(postData.Id, postImage);
+                    postViewItem.ImageKey = postData.Id;
+                }
+
+                if (!string.IsNullOrEmpty(postViewItem.Text) || !string.IsNullOrEmpty(postViewItem.ImageKey))
+                {
+                    postViewItem.Text = string.Format("{0}\n{1}", postViewItem.Text, postData.CreatedTime);
+                    listViewFeed.Items.Add(postViewItem);
+                }
+            }
+        }
+
+        private void buttonShowTop3Photos_Click(object sender, EventArgs e)
+        {
+            updateMostLikedPhotosTab();
+            buttonShowTop3Photos.Visible = false;
+        }
+
+        private void updateMostLikedPhotosTab()
+        {
+            List<PhotoData> allPhotosData;
 
             try
             {
-                allPhotos = m_FacebookAppFacade.GetUsersPhotosSortedByLikes();
+                allPhotosData = m_FacebookAppFacade.GetUsersPhotosDataSortedByLikes();
             }
             catch
             {
@@ -108,92 +159,22 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                 return;
             }
 
-            if (allPhotos.Count > 0)
+            if (allPhotosData.Count > 0)
             {
-                pictureBoxFirstMostLikedPicture.Load(allPhotos[0].PictureNormalURL);
-                labelFirstMostLikedPicture.Text = allPhotos[0].LikedBy.Count.ToString();
+                pictureBoxFirstMostLikedPicture.Load(allPhotosData[0].PhotoURL);
+                labelFirstMostLikedPicture.Text = allPhotosData[0].NumOfLikes.ToString();
             }
 
-            if (allPhotos.Count > 1)
+            if (allPhotosData.Count > 1)
             {
-                pictureBoxSecondMostLikedPicture.Load(allPhotos[1].PictureNormalURL);
-                labelSecondMostLikedPicture.Text = allPhotos[1].LikedBy.Count.ToString();
+                pictureBoxSecondMostLikedPicture.Load(allPhotosData[1].PhotoURL);
+                labelSecondMostLikedPicture.Text = allPhotosData[1].NumOfLikes.ToString();
             }
 
-            if (allPhotos.Count > 2)
+            if (allPhotosData.Count > 2)
             {
-                pictureBoxThirdMostLikedPicture.Load(allPhotos[2].PictureNormalURL);
-                labelThirdMostLikedPicture.Text = allPhotos[2].LikedBy.Count.ToString();
-            }
-        }
-
-        private void updateUserInfo(User i_LoggedInUser)
-        {
-            this.Text = string.Format("Welcome {0}!", i_LoggedInUser.Name);
-            labelName.Text = i_LoggedInUser.Name;
-            pictureBoxProfilePicture.Load(i_LoggedInUser.PictureNormalURL);
-
-            try
-            {
-                pictureBoxCoverPhoto.Load(i_LoggedInUser.Cover.SourceURL);
-            }
-            catch
-            {
-                MessageBox.Show("Failed to load your cover photo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void updateGeneralInfoTab(User i_LoggedInUser)
-        {
-            updateUserFeed(i_LoggedInUser.Posts);
-            addFriendsToFriendsLists(i_LoggedInUser.Friends);
-            addCheckinsToCheckinsList(i_LoggedInUser.Checkins);
-        }
-
-        private void addCheckinsToCheckinsList(FacebookObjectCollection<Checkin> i_Checkins)
-        {
-            foreach (Checkin checkin in i_Checkins)
-            {
-                listBoxCheckins.Items.Add(string.Format("{0},{1} At {2}", checkin.Place.Location.City, checkin.Place.Location.Country, checkin.CreatedTime.Value.ToShortDateString()));
-            }
-        }
-
-        private void addFriendsToFriendsLists(FacebookObjectCollection<User> i_Friends)
-        {
-            foreach (User friend in i_Friends)
-            {
-                listBoxFriends.Items.Add(friend.Name);
-                listBoxRatingFriendsList.Items.Add(friend.Name);
-            }
-        }
-
-        private void updateUserFeed(FacebookObjectCollection<Post> i_Posts)
-        {
-            ImageList imageList = new ImageList();
-            imageList.ImageSize = new Size(200, 128);
-            listViewFeed.LargeImageList = imageList;
-
-            foreach (Post post in i_Posts)
-            {
-                ListViewItem postViewItem = new ListViewItem();
-
-                if (post.Message != null)
-                {
-                    postViewItem.Text = post.Message;
-                }
-
-                if (post.PictureURL != null && post.PictureURL.Length > 0)
-                {
-                    Image postImage = m_FacebookAppFacade.CreateImageFromUrl(post.PictureURL);
-                    imageList.Images.Add(post.Id, postImage);
-                    postViewItem.ImageKey = post.Id;
-                }
-
-                if (!string.IsNullOrEmpty(postViewItem.Text) || !string.IsNullOrEmpty(postViewItem.ImageKey))
-                {
-                    postViewItem.Text = postViewItem.Text + string.Format("\n{0}", post.CreatedTime.Value.ToShortDateString());
-                    listViewFeed.Items.Add(postViewItem);
-                }
+                pictureBoxThirdMostLikedPicture.Load(allPhotosData[2].PhotoURL);
+                labelThirdMostLikedPicture.Text = allPhotosData[2].NumOfLikes.ToString();
             }
         }
 
@@ -204,39 +185,27 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         private void fetchAndUpdateSelectedFriendData(string i_FriendName)
         {
-            User friendToRate = m_FacebookAppFacade.GetFriendUser(i_FriendName);
-
-            if (friendToRate != null)
+            try
             {
-                pictureBoxRatingFriendProfilePic.Load(friendToRate.PictureLargeURL);
-                try
-                {
-                    updateFriendDataDisplay(m_FacebookAppFacade.GetFriendDataByName(i_FriendName));
-                }
-                catch
-                {
-                    MessageBox.Show("Failed to access your friend's data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                updateFriendDataDisplay(m_FacebookAppFacade.GetFriendDataByName(i_FriendName));
+            }
+            catch
+            {
+                MessageBox.Show("Failed to access your friend's data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void updateFriendDataDisplay(FriendData friendData)
+        private void updateFriendDataDisplay(FriendData i_FriendData)
         {
             int friendRank;
-
-            labelRatingTabLikesCount.Text = friendData.NumberOfLikes.ToString();
-            labelRatingTabCommentsCount.Text = friendData.NumberOfComments.ToString();
-            labelRatingTabCheckinsCount.Text = friendData.NumberOfSharedCheckins.ToString();
-            labelRatinTabPagesCount.Text = friendData.NumberOfSharedPages.ToString();
-            labelRatingTabGroupsCount.Text = friendData.NumberOfSharedGroups.ToString();
-            friendRank = m_FacebookAppFacade.GetFriendRankInFriendsList(friendData.Name);
-            labelRatingTabRankMessage.Text = string.Format("is ranked {1}# in your friends!", friendData.Name, friendRank);
-        }
-
-        private void buttonShowTop3Photos_Click(object sender, EventArgs e)
-        {
-            updateMostLikedPhotosTab(m_LoggedInUser);
-            buttonShowTop3Photos.Visible = false;
+            pictureBoxRatingFriendProfilePic.Load(i_FriendData.ProfilePictureUrl);
+            labelRatingTabLikesCount.Text = i_FriendData.NumberOfLikes.ToString();
+            labelRatingTabCommentsCount.Text = i_FriendData.NumberOfComments.ToString();
+            labelRatingTabCheckinsCount.Text = i_FriendData.NumberOfSharedCheckins.ToString();
+            labelRatinTabPagesCount.Text = i_FriendData.NumberOfSharedPages.ToString();
+            labelRatingTabGroupsCount.Text = i_FriendData.NumberOfSharedGroups.ToString();
+            friendRank = m_FacebookAppFacade.GetFriendRankInFriendsList(i_FriendData.Name);
+            labelRatingTabRankMessage.Text = string.Format("is ranked {1}# in your friends!", i_FriendData.Name, friendRank);
         }
     }
 }

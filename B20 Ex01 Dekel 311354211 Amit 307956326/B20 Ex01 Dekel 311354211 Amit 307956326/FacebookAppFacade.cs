@@ -12,13 +12,12 @@ using FacebookWrapper.ObjectModel;
 
 namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
+    public delegate void FacebookConnectionNotifier(LoggedInUserData i_UserData);
 
     public class FacebookAppFacade
     {
-        ////////////////////////////////////////////////////
-        public delegate void FacebookConnectionNotifier(LoggedInUserData i_userData); 
-        ////////////////////////////////////////////////////
-        
+        public event FacebookConnectionNotifier m_FacebookConnectionNotifier;
+
         public User LoggedInUser { get; set; }
 
         public List<FriendData> FriendsDataList { get; set; }
@@ -34,14 +33,43 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             AppSettings = AppSettings.LoadSettingsFromFile();
         }
 
-        public void ConnectToFacebook()
+        public void Connect()
         {
             if (AppSettings.RememberUser && !string.IsNullOrEmpty(AppSettings.LastAccessToken))
             {
                 m_LoginResult = FacebookService.Connect(AppSettings.LastAccessToken);
-                //updateDisplay(m_LoginResult);
-                //buttonLogin.Text = "Logout";
+                LoggedInUserData loggedInUserData = new LoggedInUserData(m_LoginResult.LoggedInUser);
+                m_FacebookConnectionNotifier.Invoke(loggedInUserData);
             }
+        }
+
+        public void Login()
+        {
+            m_LoginResult = FacebookWrapper.FacebookService.Login(
+                "202490531010346",
+                "public_profile",
+                "email",
+                "publish_to_groups",
+                "user_age_range",
+                "user_gender",
+                "user_link",
+                "user_tagged_places",
+                "user_videos",
+                "groups_access_member_info",
+                "user_friends",
+                "user_likes",
+                "user_photos",
+                "user_posts",
+                "user_hometown");
+
+            AppSettings.LastAccessToken = m_LoginResult.AccessToken;
+            LoggedInUserData loggedInUserData = new LoggedInUserData(m_LoginResult.LoggedInUser);
+            m_FacebookConnectionNotifier.Invoke(loggedInUserData);
+        }
+
+        public void Logout()
+        {
+            FacebookWrapper.FacebookService.Logout(() => {});
         }
 
         public void SaveSettingsToFile()
@@ -66,6 +94,11 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             }
         }
 
+        public void Get3MostLikedPhotos()
+        {
+               
+        }
+
         public int GetFriendRankInFriendsList(string i_FriendName)
         {
             int o_FriendRank = -1;
@@ -81,21 +114,21 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             return o_FriendRank;
         }
 
-        public IList<Photo> GetUsersPhotosSortedByLikes()
+        public List<PhotoData> GetUsersPhotosDataSortedByLikes()
         {
-            IList<Photo> allPhotos = new FacebookObjectCollection<Photo>();
+            List<PhotoData> allPicturesData = new List<PhotoData>();
             FacebookObjectCollection<Album> albums = LoggedInUser.Albums;
 
             foreach (Album album in albums)
             {
                 foreach (Photo photo in album.Photos)
                 {
-                    allPhotos.Add(photo);
+                    allPicturesData.Add(new PhotoData(photo));
                 }
             }
 
-            allPhotos.OrderBy(photo => photo.LikedBy.Count);
-            return allPhotos;
+            allPicturesData.OrderBy(PictureData => PictureData.NumOfLikes);
+            return allPicturesData;
         }
 
         public Image CreateImageFromUrl(string i_PictureURL)
