@@ -33,7 +33,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             {
                 LoginResult loginResult = FacebookService.Connect(AppSettings.LastAccessToken);
                 LoggedInUser = loginResult.LoggedInUser;
-                FacebookCacheProxy.LoggedInUser = LoggedInUser;
+                FacebookCacheProxy.Instace.LoggedInUser = LoggedInUser;
                 m_FacebookConnectionNotifier.Invoke(new LoggedInUserData(LoggedInUser, AppSettings.LastAccessToken));
             }
         }
@@ -59,7 +59,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
             LoggedInUser = loginResult.LoggedInUser;
             AppSettings.LastAccessToken = loginResult.AccessToken;
-            FacebookCacheProxy.LoggedInUser = LoggedInUser;
+            FacebookCacheProxy.Instace.LoggedInUser = LoggedInUser;
             m_FacebookConnectionNotifier.Invoke(new LoggedInUserData(LoggedInUser, loginResult.AccessToken));
         }
 
@@ -77,7 +77,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         public int GetFriendRankInFriendsList(string i_FriendName)
         {
             int o_FriendRank = -1;
-            List<FriendData> friendsData = FacebookCacheProxy.FriendsDataList;
+            List<FriendData> friendsData = FacebookCacheProxy.Instace.FriendsDataList;
 
             foreach (FriendData friendData in friendsData)
             {
@@ -92,7 +92,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         public List<PhotoData> GetTopThreeLikedPhotos()
         {
-            return FacebookCacheProxy.GetTopThreeLikedPhotos(LoggedInUser);
+            return FacebookCacheProxy.Instace.GetTopThreeLikedPhotos(LoggedInUser);
         }
 
         public Image CreateImageFromUrl(string i_PictureURL)
@@ -121,7 +121,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         public FriendData GetFriendDataByName(string i_FriendName)
         {
-            return FacebookCacheProxy.GetFriendDataByName(i_FriendName);
+            return FacebookCacheProxy.Instace.GetFriendDataByName(i_FriendName);
         }
     }
 }

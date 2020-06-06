@@ -10,15 +10,41 @@ using FacebookWrapper.ObjectModel;
 
 namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
-    class FacebookCacheProxy
+    public sealed class FacebookCacheProxy
     {
-        public static User LoggedInUser { get; set; }
+        private static FacebookCacheProxy s_Instance = null;
+        private static object s_LockObj = new object();
 
-        private static List<PhotoData> s_TopThreeLikedPhotos;
+        private FacebookCacheProxy()
+        {
+        }
 
-        public static List<FriendData> FriendsDataList { get; set; }
+        public static FacebookCacheProxy Instace
+        {
+            get
+            {
+                if (s_Instance == null)
+                {
+                    lock (s_LockObj)
+                    {
+                        if (s_Instance == null)
+                        {
+                            s_Instance = new FacebookCacheProxy();
+                        }
+                    }
+                }
 
-        public static User Connect(string i_AccessToken, out bool o_Connected)
+                return s_Instance;
+            }
+        }
+
+        public User LoggedInUser { get; set; }
+
+        private List<PhotoData> s_TopThreeLikedPhotos;
+
+        public List<FriendData> FriendsDataList { get; set; }
+
+        public User Connect(string i_AccessToken, out bool o_Connected)
         {
             LoginResult loginResult = FacebookService.Connect(i_AccessToken);
 
@@ -27,7 +53,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             return loginResult.LoggedInUser;
         }
 
-        public static List<PhotoData> GetTopThreeLikedPhotos(User i_LoggedInUser)
+        public List<PhotoData> GetTopThreeLikedPhotos(User i_LoggedInUser)
         {
             if (s_TopThreeLikedPhotos == null)
             {
@@ -37,7 +63,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             return s_TopThreeLikedPhotos;
         }
 
-        public static FriendData GetFriendDataByName(string i_FriendName)
+        public FriendData GetFriendDataByName(string i_FriendName)
         {
             FriendData o_FriendData = null;
 
@@ -57,7 +83,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             return o_FriendData;
         }
 
-        public static void FetchSortedFriendsDataList()
+        public void FetchSortedFriendsDataList()
         {
             if (FriendsDataList == null)
             {
