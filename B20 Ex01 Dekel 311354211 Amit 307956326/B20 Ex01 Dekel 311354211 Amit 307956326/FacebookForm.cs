@@ -48,7 +48,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                 m_FacebookAppFacade.AppSettings.LastAccessToken = null;
             }
 
-            m_FacebookAppFacade.SaveSettingsToFile();
+            m_FacebookAppFacade.CloseApplication();
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)

@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
+    <Compile Include="FacebookCacheProxy.cs" />
     <Compile Include="FacebookForm.cs">
       <SubType>Form</SubType>
     </Compile>

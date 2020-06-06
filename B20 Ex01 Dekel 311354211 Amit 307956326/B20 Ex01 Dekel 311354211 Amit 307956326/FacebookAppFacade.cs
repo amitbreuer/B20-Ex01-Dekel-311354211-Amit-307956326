@@ -26,8 +26,6 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         public AppSettings AppSettings { get; set; }
 
-        private LoginResult m_LoginResult;
-
         public FacebookAppFacade()
         {
             AppSettings = AppSettings.LoadSettingsFromFile();
@@ -35,48 +33,46 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         public void Connect()
         {
+            bool connected;
+
             if (AppSettings.RememberUser && !string.IsNullOrEmpty(AppSettings.LastAccessToken))
             {
-                m_LoginResult = FacebookService.Connect(AppSettings.LastAccessToken);
-                LoggedInUser = m_LoginResult.LoggedInUser;
-                LoggedInUserData loggedInUserData = new LoggedInUserData(LoggedInUser);
+                LoggedInUser = FacebookCacheProxy.Connect(AppSettings.LastAccessToken,out connected);
+
+                if(!connected)
+                {
+                    FacebookCacheProxy.FetchUserDataFromCache();
+                }
+
+                LoggedInUserData loggedInUserData = new LoggedInUserData(LoggedInUser,AppSettings.LastAccessToken);
                 m_FacebookConnectionNotifier.Invoke(loggedInUserData);
             }
         }
 
         public void Login()
         {
-            m_LoginResult = FacebookWrapper.FacebookService.Login(
-                "202490531010346",
-                "public_profile",
-                "email",
-                "publish_to_groups",
-                "user_age_range",
-                "user_gender",
-                "user_link",
-                "user_tagged_places",
-                "user_videos",
-                "groups_access_member_info",
-                "user_friends",
-                "user_likes",
-                "user_photos",
-                "user_posts",
-                "user_hometown");
+            string resultAccessToken;
+            LoggedInUserData loggedInUserData;
 
-            AppSettings.LastAccessToken = m_LoginResult.AccessToken;
-            LoggedInUser = m_LoginResult.LoggedInUser;
-            LoggedInUserData loggedInUserData = new LoggedInUserData(LoggedInUser);
+            LoggedInUser = FacebookCacheProxy.Login(out resultAccessToken);
+            AppSettings.LastAccessToken = resultAccessToken;
+            loggedInUserData = new LoggedInUserData(LoggedInUser,resultAccessToken);
             m_FacebookConnectionNotifier.Invoke(loggedInUserData);
+        }
+
+        public void CloseApplication()
+        {
+            AppSettings.SaveSettingsToFile();
+
+            if(AppSettings.RememberUser)
+            {
+                FacebookCacheProxy.CacheLoggedInUserData(new LoggedInUserData(LoggedInUser,AppSettings.LastAccessToken));
+            }
         }
 
         public void Logout()
         {
-            FacebookWrapper.FacebookService.Logout(() => {});
-        }
-
-        public void SaveSettingsToFile()
-        {
-            AppSettings.SaveSettingsToFile();
+            FacebookCacheProxy.Logout();
         }
 
         public void FetchSortedFriendsDataList()
@@ -94,11 +90,6 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                 FriendsDataList.Sort();
                 s_FriendsDataListWasFetched = true;
             }
-        }
-
-        public void Get3MostLikedPhotos()
-        {
-               
         }
 
         public int GetFriendRankInFriendsList(string i_FriendName)
