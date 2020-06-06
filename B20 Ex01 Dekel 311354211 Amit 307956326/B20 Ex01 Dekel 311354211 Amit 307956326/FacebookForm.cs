@@ -79,7 +79,7 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             labelName.Text = i_LoggedInUserData.Name;
             pictureBoxProfilePicture.Load(i_LoggedInUserData.ProfilePictureUrl);
 
-            if(i_LoggedInUserData.CoverPhotoUrl != null)
+            if (i_LoggedInUserData.CoverPhotoUrl != null)
             {
                 pictureBoxCoverPhoto.Load(i_LoggedInUserData.CoverPhotoUrl);
             }
@@ -147,34 +147,27 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         private void updateMostLikedPhotosTab()
         {
-            List<PhotoData> allPhotosData;
+            List<PhotoData> allPhotosData = m_FacebookAppFacade.GetUsersPhotosDataSortedByLikes(); ;
 
-            try
+            if (allPhotosData != null)
             {
-                allPhotosData = m_FacebookAppFacade.GetUsersPhotosDataSortedByLikes();
-            }
-            catch
-            {
-                MessageBox.Show("Failed to access your photos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+                if (allPhotosData.Count > 0)
+                {
+                    pictureBoxFirstMostLikedPicture.Load(allPhotosData[0].PhotoURL);
+                    labelFirstMostLikedPicture.Text = allPhotosData[0].NumOfLikes.ToString();
+                }
 
-            if (allPhotosData.Count > 0)
-            {
-                pictureBoxFirstMostLikedPicture.Load(allPhotosData[0].PhotoURL);
-                labelFirstMostLikedPicture.Text = allPhotosData[0].NumOfLikes.ToString();
-            }
+                if (allPhotosData.Count > 1)
+                {
+                    pictureBoxSecondMostLikedPicture.Load(allPhotosData[1].PhotoURL);
+                    labelSecondMostLikedPicture.Text = allPhotosData[1].NumOfLikes.ToString();
+                }
 
-            if (allPhotosData.Count > 1)
-            {
-                pictureBoxSecondMostLikedPicture.Load(allPhotosData[1].PhotoURL);
-                labelSecondMostLikedPicture.Text = allPhotosData[1].NumOfLikes.ToString();
-            }
-
-            if (allPhotosData.Count > 2)
-            {
-                pictureBoxThirdMostLikedPicture.Load(allPhotosData[2].PhotoURL);
-                labelThirdMostLikedPicture.Text = allPhotosData[2].NumOfLikes.ToString();
+                if (allPhotosData.Count > 2)
+                {
+                    pictureBoxThirdMostLikedPicture.Load(allPhotosData[2].PhotoURL);
+                    labelThirdMostLikedPicture.Text = allPhotosData[2].NumOfLikes.ToString();
+                }
             }
         }
 
@@ -185,25 +178,28 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         private void fetchAndUpdateSelectedFriendData(string i_FriendName)
         {
-            try
+            FriendData friendData = m_FacebookAppFacade.GetFriendDataByName(i_FriendName);
+            
+            if(friendData != null)
             {
-                updateFriendDataDisplay(m_FacebookAppFacade.GetFriendDataByName(i_FriendName));
-            }
-            catch
-            {
-                MessageBox.Show("Failed to access your friend's data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                updateFriendDataDisplay(friendData);
             }
         }
 
         private void updateFriendDataDisplay(FriendData i_FriendData)
         {
             int friendRank;
-            pictureBoxRatingFriendProfilePic.Load(i_FriendData.ProfilePictureUrl);
-            labelRatingTabLikesCount.Text = i_FriendData.NumberOfLikes.ToString();
-            labelRatingTabCommentsCount.Text = i_FriendData.NumberOfComments.ToString();
-            labelRatingTabCheckinsCount.Text = i_FriendData.NumberOfSharedCheckins.ToString();
-            labelRatinTabPagesCount.Text = i_FriendData.NumberOfSharedPages.ToString();
-            labelRatingTabGroupsCount.Text = i_FriendData.NumberOfSharedGroups.ToString();
+
+            if(!string.IsNullOrEmpty(i_FriendData.ProfilePictureUrl))
+            {
+                pictureBoxRatingFriendProfilePic.Load(i_FriendData.ProfilePictureUrl);
+            }
+
+            labelRatingTabLikesCount.Text = i_FriendData.NumberOfLikes != -1 ? i_FriendData.NumberOfLikes.ToString() : "-";
+            labelRatingTabCommentsCount.Text = i_FriendData.NumberOfComments != -1 ? i_FriendData.NumberOfComments.ToString() : "-";
+            labelRatingTabCheckinsCount.Text = i_FriendData.NumberOfSharedCheckins != -1 ? i_FriendData.NumberOfSharedCheckins.ToString() : "-";
+            labelRatinTabPagesCount.Text = i_FriendData.NumberOfSharedPages != -1 ? i_FriendData.NumberOfSharedPages.ToString() : "-";
+            labelRatingTabGroupsCount.Text = i_FriendData.NumberOfSharedGroups != -1 ? i_FriendData.NumberOfSharedGroups.ToString() : "-";
             friendRank = m_FacebookAppFacade.GetFriendRankInFriendsList(i_FriendData.Name);
             labelRatingTabRankMessage.Text = string.Format("is ranked {1}# in your friends!", i_FriendData.Name, friendRank);
         }

@@ -38,7 +38,8 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             if (AppSettings.RememberUser && !string.IsNullOrEmpty(AppSettings.LastAccessToken))
             {
                 m_LoginResult = FacebookService.Connect(AppSettings.LastAccessToken);
-                LoggedInUserData loggedInUserData = new LoggedInUserData(m_LoginResult.LoggedInUser);
+                LoggedInUser = m_LoginResult.LoggedInUser;
+                LoggedInUserData loggedInUserData = new LoggedInUserData(LoggedInUser);
                 m_FacebookConnectionNotifier.Invoke(loggedInUserData);
             }
         }
@@ -63,7 +64,8 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                 "user_hometown");
 
             AppSettings.LastAccessToken = m_LoginResult.AccessToken;
-            LoggedInUserData loggedInUserData = new LoggedInUserData(m_LoginResult.LoggedInUser);
+            LoggedInUser = m_LoginResult.LoggedInUser;
+            LoggedInUserData loggedInUserData = new LoggedInUserData(LoggedInUser);
             m_FacebookConnectionNotifier.Invoke(loggedInUserData);
         }
 
@@ -116,19 +118,32 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         public List<PhotoData> GetUsersPhotosDataSortedByLikes()
         {
-            List<PhotoData> allPicturesData = new List<PhotoData>();
-            FacebookObjectCollection<Album> albums = LoggedInUser.Albums;
+            List<PhotoData> allPhotosData = new List<PhotoData>();
+            FacebookObjectCollection<Album> albums;
 
-            foreach (Album album in albums)
+            try
             {
-                foreach (Photo photo in album.Photos)
-                {
-                    allPicturesData.Add(new PhotoData(photo));
-                }
+                albums = LoggedInUser.Albums;
+            }
+            catch
+            {
+                albums = null;
             }
 
-            allPicturesData.OrderBy(PictureData => PictureData.NumOfLikes);
-            return allPicturesData;
+            if(albums != null)
+            {
+                foreach (Album album in albums)
+                {
+                    foreach (Photo photo in album.Photos)
+                    {
+                        allPhotosData.Add(new PhotoData(photo));
+                    }
+                }
+
+                allPhotosData.OrderBy(PictureData => PictureData.NumOfLikes);
+            }
+
+            return allPhotosData;
         }
 
         public Image CreateImageFromUrl(string i_PictureURL)
