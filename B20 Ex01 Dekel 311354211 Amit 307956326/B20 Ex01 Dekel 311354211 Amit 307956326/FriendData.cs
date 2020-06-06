@@ -193,15 +193,15 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         public int CompareTo(object obj)
         {
-            int friend1Rating = this.GetFriendRating();
-            int friend2Rating = (obj as FriendData).GetFriendRating();
+            int friend1Rating = this.GetFriendScore();
+            int friend2Rating = (obj as FriendData).GetFriendScore();
 
             return friend2Rating - friend1Rating;
         }
 
-        public int GetFriendRating()
+        public int GetFriendScore()
         {
-            int o_Rank = 0;
+            int o_Score = 0;
             int intValue;
             Type thisType = this.GetType();
 
@@ -212,11 +212,11 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                 if (!propertyInfo.Name.Equals("Name"))
                 {
                     intValue = int.Parse(propertyValue.ToString());
-                    o_Rank += 3 * intValue;
+                    o_Score += 3 * intValue;
                 }
             }
 
-            return o_Rank;
+            return o_Score;
         }
     }
 }

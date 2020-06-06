@@ -141,33 +141,36 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         private void buttonShowTop3Photos_Click(object sender, EventArgs e)
         {
-            updateMostLikedPhotosTab();
-            buttonShowTop3Photos.Visible = false;
+            updateThreeMostLikedPhotosTab();
         }
 
-        private void updateMostLikedPhotosTab()
+        private void updateThreeMostLikedPhotosTab()
         {
-            List<PhotoData> allPhotosData = m_FacebookAppFacade.GetUsersPhotosDataSortedByLikes(); ;
+            List<PhotoData> TopThreeLikedPhotos = m_FacebookAppFacade.GetTopThreeLikedPhotos();
 
-            if (allPhotosData != null)
+            if (TopThreeLikedPhotos != null && TopThreeLikedPhotos.Count != 0)
             {
-                if (allPhotosData.Count > 0)
+                if (TopThreeLikedPhotos.Count > 0)
                 {
-                    pictureBoxFirstMostLikedPicture.Load(allPhotosData[0].PhotoURL);
-                    labelFirstMostLikedPicture.Text = allPhotosData[0].NumOfLikes.ToString();
+                    pictureBoxFirstMostLikedPicture.Load(TopThreeLikedPhotos[0].PhotoURL);
+                    labelFirstMostLikedPicture.Text = TopThreeLikedPhotos[0].NumOfLikes.ToString();
                 }
 
-                if (allPhotosData.Count > 1)
+                if (TopThreeLikedPhotos.Count > 1)
                 {
-                    pictureBoxSecondMostLikedPicture.Load(allPhotosData[1].PhotoURL);
-                    labelSecondMostLikedPicture.Text = allPhotosData[1].NumOfLikes.ToString();
+                    pictureBoxSecondMostLikedPicture.Load(TopThreeLikedPhotos[1].PhotoURL);
+                    labelSecondMostLikedPicture.Text = TopThreeLikedPhotos[1].NumOfLikes.ToString();
                 }
 
-                if (allPhotosData.Count > 2)
+                if (TopThreeLikedPhotos.Count > 2)
                 {
-                    pictureBoxThirdMostLikedPicture.Load(allPhotosData[2].PhotoURL);
-                    labelThirdMostLikedPicture.Text = allPhotosData[2].NumOfLikes.ToString();
+                    pictureBoxThirdMostLikedPicture.Load(TopThreeLikedPhotos[2].PhotoURL);
+                    labelThirdMostLikedPicture.Text = TopThreeLikedPhotos[2].NumOfLikes.ToString();
                 }
+            }
+            else
+            {
+                MessageBox.Show("Failed to access your photos", "Access Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -183,6 +186,10 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             if(friendData != null)
             {
                 updateFriendDataDisplay(friendData);
+            }
+            else
+            {
+                MessageBox.Show("Failed to access your friend's data", "Access Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

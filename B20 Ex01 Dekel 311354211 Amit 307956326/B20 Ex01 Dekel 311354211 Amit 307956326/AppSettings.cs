@@ -12,10 +12,6 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
     public class AppSettings
     {
-        private Point location;
-        private Size size;
-        private bool @checked;
-
         public Point LastWindowLocation { get; set; }
 
         public Size LastWindowSize { get; set; }
@@ -32,11 +28,11 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             LastAccessToken = string.Empty;
         }
 
-        public AppSettings(Point i_Location, Size i_Size, bool i_Checked)
+        public AppSettings(Point i_Location, Size i_Size, bool i_RememberUserChecked)
         {
-            this.location = i_Location;
-            this.size = i_Size;
-            this.RememberUser = i_Checked;
+            this.LastWindowLocation = i_Location;
+            this.LastWindowSize = i_Size;
+            this.RememberUser = i_RememberUserChecked;
         }
 
         public static AppSettings LoadSettingsFromFile()

@@ -7,7 +7,6 @@ using FacebookWrapper.ObjectModel;
 
 namespace B20_Ex01_Dekel_311354211_Amit_307956326
 {
-    [Serializable]
     public class PostData
     {
         public string Id { get; set; }
