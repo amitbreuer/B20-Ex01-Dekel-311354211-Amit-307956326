@@ -90,6 +90,12 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             updateUserFeed(i_LoggedInUserData.PostsData);
             addFriendsToFriendsLists(i_LoggedInUserData.FriendsNames);
             addCheckinsToCheckinsList(i_LoggedInUserData.Checkins);
+            addGroupsToGroupsList(i_LoggedInUserData.GroupsData);
+        }
+
+        private void addGroupsToGroupsList(List<GroupData> i_GroupsData)
+        {
+            groupDataBindingSource.DataSource = i_GroupsData;
         }
 
         private void addCheckinsToCheckinsList(List<string> i_Checkins)

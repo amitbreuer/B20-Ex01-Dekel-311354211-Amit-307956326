@@ -14,12 +14,12 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         public string PictureUrl { get; set; }
         public string CreatedTime { get; set; }
 
-        public PostData(Post post)
+        public PostData(Post i_Post)
         {
-            this.Id = post.Id;
-            this.Text = post.Message;
-            this.PictureUrl = post.PictureURL;
-            this.CreatedTime = post.CreatedTime.Value.ToShortDateString();
+            this.Id = i_Post.Id;
+            this.Text = i_Post.Message;
+            this.PictureUrl = i_Post.PictureURL;
+            this.CreatedTime = i_Post.CreatedTime.Value.ToShortDateString();
         }
     }
 }

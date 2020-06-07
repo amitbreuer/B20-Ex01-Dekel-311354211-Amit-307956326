@@ -29,6 +29,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.Label descriptionLabel;
+            System.Windows.Forms.Label linkLabel;
+            System.Windows.Forms.Label nameLabel;
+            System.Windows.Forms.Label ownerNameLabel;
             this.checkBoxRememberMe = new System.Windows.Forms.CheckBox();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.labelName = new System.Windows.Forms.Label();
@@ -68,6 +73,20 @@
             this.listBoxFriends = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabYourGroups = new System.Windows.Forms.TabPage();
+            this.labelGroups = new System.Windows.Forms.Label();
+            this.listBoxGroups = new System.Windows.Forms.ListBox();
+            this.groupDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.descriptionTextBox = new System.Windows.Forms.TextBox();
+            this.iconUrlPictureBox = new System.Windows.Forms.PictureBox();
+            this.linkLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.nameLabel1 = new System.Windows.Forms.Label();
+            this.ownerNameLabel1 = new System.Windows.Forms.Label();
+            descriptionLabel = new System.Windows.Forms.Label();
+            linkLabel = new System.Windows.Forms.Label();
+            nameLabel = new System.Windows.Forms.Label();
+            ownerNameLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).BeginInit();
             this.tabRatingFreinds.SuspendLayout();
@@ -81,7 +100,47 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSecondMostLikedPicture)).BeginInit();
             this.tabGeneralInfo.SuspendLayout();
             this.tabControl.SuspendLayout();
+            this.tabYourGroups.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupDataBindingSource)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconUrlPictureBox)).BeginInit();
             this.SuspendLayout();
+            // 
+            // descriptionLabel
+            // 
+            descriptionLabel.AutoSize = true;
+            descriptionLabel.Location = new System.Drawing.Point(73, 173);
+            descriptionLabel.Name = "descriptionLabel";
+            descriptionLabel.Size = new System.Drawing.Size(115, 25);
+            descriptionLabel.TabIndex = 0;
+            descriptionLabel.Text = "Description:";
+            // 
+            // linkLabel
+            // 
+            linkLabel.AutoSize = true;
+            linkLabel.Location = new System.Drawing.Point(68, 330);
+            linkLabel.Name = "linkLabel";
+            linkLabel.Size = new System.Drawing.Size(54, 25);
+            linkLabel.TabIndex = 4;
+            linkLabel.Text = "Link:";
+            // 
+            // nameLabel
+            // 
+            nameLabel.AutoSize = true;
+            nameLabel.Location = new System.Drawing.Point(73, 135);
+            nameLabel.Name = "nameLabel";
+            nameLabel.Size = new System.Drawing.Size(70, 25);
+            nameLabel.TabIndex = 6;
+            nameLabel.Text = "Name:";
+            // 
+            // ownerNameLabel
+            // 
+            ownerNameLabel.AutoSize = true;
+            ownerNameLabel.Location = new System.Drawing.Point(68, 291);
+            ownerNameLabel.Name = "ownerNameLabel";
+            ownerNameLabel.Size = new System.Drawing.Size(133, 25);
+            ownerNameLabel.TabIndex = 8;
+            ownerNameLabel.Text = "Owner Name:";
             // 
             // checkBoxRememberMe
             // 
@@ -482,6 +541,7 @@
             this.tabControl.Controls.Add(this.tabGeneralInfo);
             this.tabControl.Controls.Add(this.tabTop3Photos);
             this.tabControl.Controls.Add(this.tabRatingFreinds);
+            this.tabControl.Controls.Add(this.tabYourGroups);
             this.tabControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControl.HotTrack = true;
             this.tabControl.Location = new System.Drawing.Point(3, 290);
@@ -490,11 +550,110 @@
             this.tabControl.Size = new System.Drawing.Size(1218, 593);
             this.tabControl.TabIndex = 30;
             // 
+            // tabYourGroups
+            // 
+            this.tabYourGroups.Controls.Add(this.labelGroups);
+            this.tabYourGroups.Controls.Add(this.listBoxGroups);
+            this.tabYourGroups.Controls.Add(this.panel1);
+            this.tabYourGroups.Location = new System.Drawing.Point(4, 37);
+            this.tabYourGroups.Name = "tabYourGroups";
+            this.tabYourGroups.Padding = new System.Windows.Forms.Padding(3);
+            this.tabYourGroups.Size = new System.Drawing.Size(1210, 552);
+            this.tabYourGroups.TabIndex = 4;
+            this.tabYourGroups.Text = "Your Groups";
+            this.tabYourGroups.UseVisualStyleBackColor = true;
+            // 
+            // labelGroups
+            // 
+            this.labelGroups.AutoSize = true;
+            this.labelGroups.Location = new System.Drawing.Point(88, 46);
+            this.labelGroups.Name = "labelGroups";
+            this.labelGroups.Size = new System.Drawing.Size(160, 25);
+            this.labelGroups.TabIndex = 2;
+            this.labelGroups.Text = "Groups you\'re in:";
+            // 
+            // listBoxGroups
+            // 
+            this.listBoxGroups.DataSource = this.groupDataBindingSource;
+            this.listBoxGroups.DisplayMember = "Name";
+            this.listBoxGroups.FormattingEnabled = true;
+            this.listBoxGroups.ItemHeight = 25;
+            this.listBoxGroups.Location = new System.Drawing.Point(88, 92);
+            this.listBoxGroups.Name = "listBoxGroups";
+            this.listBoxGroups.Size = new System.Drawing.Size(225, 379);
+            this.listBoxGroups.TabIndex = 1;
+            // 
+            // groupDataBindingSource
+            // 
+            this.groupDataBindingSource.DataSource = typeof(B20_Ex01_Dekel_311354211_Amit_307956326.GroupData);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(descriptionLabel);
+            this.panel1.Controls.Add(this.descriptionTextBox);
+            this.panel1.Controls.Add(this.iconUrlPictureBox);
+            this.panel1.Controls.Add(linkLabel);
+            this.panel1.Controls.Add(this.linkLinkLabel);
+            this.panel1.Controls.Add(nameLabel);
+            this.panel1.Controls.Add(this.nameLabel1);
+            this.panel1.Controls.Add(ownerNameLabel);
+            this.panel1.Controls.Add(this.ownerNameLabel1);
+            this.panel1.Location = new System.Drawing.Point(414, 92);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(458, 379);
+            this.panel1.TabIndex = 0;
+            // 
+            // descriptionTextBox
+            // 
+            this.descriptionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.groupDataBindingSource, "Description", true));
+            this.descriptionTextBox.Location = new System.Drawing.Point(212, 170);
+            this.descriptionTextBox.Multiline = true;
+            this.descriptionTextBox.Name = "descriptionTextBox";
+            this.descriptionTextBox.Size = new System.Drawing.Size(222, 74);
+            this.descriptionTextBox.TabIndex = 1;
+            // 
+            // iconUrlPictureBox
+            // 
+            this.iconUrlPictureBox.DataBindings.Add(new System.Windows.Forms.Binding("Image", this.groupDataBindingSource, "IconUrl", true));
+            this.iconUrlPictureBox.Location = new System.Drawing.Point(73, 20);
+            this.iconUrlPictureBox.Name = "iconUrlPictureBox";
+            this.iconUrlPictureBox.Size = new System.Drawing.Size(234, 103);
+            this.iconUrlPictureBox.TabIndex = 3;
+            this.iconUrlPictureBox.TabStop = false;
+            // 
+            // linkLinkLabel
+            // 
+            this.linkLinkLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.groupDataBindingSource, "Link", true));
+            this.linkLinkLabel.Location = new System.Drawing.Point(128, 330);
+            this.linkLinkLabel.Name = "linkLinkLabel";
+            this.linkLinkLabel.Size = new System.Drawing.Size(306, 25);
+            this.linkLinkLabel.TabIndex = 5;
+            this.linkLinkLabel.TabStop = true;
+            this.linkLinkLabel.Text = "groupLink";
+            // 
+            // nameLabel1
+            // 
+            this.nameLabel1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.groupDataBindingSource, "Name", true));
+            this.nameLabel1.Location = new System.Drawing.Point(212, 135);
+            this.nameLabel1.Name = "nameLabel1";
+            this.nameLabel1.Size = new System.Drawing.Size(174, 32);
+            this.nameLabel1.TabIndex = 7;
+            this.nameLabel1.Text = "group name";
+            // 
+            // ownerNameLabel1
+            // 
+            this.ownerNameLabel1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.groupDataBindingSource, "OwnerName", true));
+            this.ownerNameLabel1.Location = new System.Drawing.Point(207, 291);
+            this.ownerNameLabel1.Name = "ownerNameLabel1";
+            this.ownerNameLabel1.Size = new System.Drawing.Size(193, 39);
+            this.ownerNameLabel1.TabIndex = 9;
+            this.ownerNameLabel1.Text = "owner name";
+            // 
             // FacebookForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1218, 894);
+            this.ClientSize = new System.Drawing.Size(1221, 894);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.pictureBoxProfilePicture);
@@ -519,6 +678,12 @@
             this.tabGeneralInfo.ResumeLayout(false);
             this.tabGeneralInfo.PerformLayout();
             this.tabControl.ResumeLayout(false);
+            this.tabYourGroups.ResumeLayout(false);
+            this.tabYourGroups.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupDataBindingSource)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconUrlPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -564,5 +729,15 @@
         private System.Windows.Forms.Label labelRatingTabLikesCount;
         private System.Windows.Forms.Label labelRatingTabRankMessage;
         private System.Windows.Forms.Button buttonShowTop3Photos;
+        private System.Windows.Forms.TabPage tabYourGroups;
+        private System.Windows.Forms.Label labelGroups;
+        private System.Windows.Forms.ListBox listBoxGroups;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox descriptionTextBox;
+        private System.Windows.Forms.BindingSource groupDataBindingSource;
+        private System.Windows.Forms.PictureBox iconUrlPictureBox;
+        private System.Windows.Forms.LinkLabel linkLinkLabel;
+        private System.Windows.Forms.Label nameLabel1;
+        private System.Windows.Forms.Label ownerNameLabel1;
     }
 }

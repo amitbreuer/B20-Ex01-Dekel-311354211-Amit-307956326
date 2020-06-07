@@ -14,8 +14,9 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         public string ProfilePictureUrl { get; set; }
         public string CoverPhotoUrl { get; set; }
         public List<string> FriendsNames { get; set; }
-        public List<string> Checkins { get; set; } 
+        public List<string> Checkins { get; set; }
         public List<PostData> PostsData { get; set; }
+        public List<GroupData> GroupsData { get; set; }
 
         public LoggedInUserData(User i_LoggedInUser, string i_AccessToken)
         {
@@ -23,18 +24,84 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             this.Name = i_LoggedInUser.Name;
             this.ProfilePictureUrl = i_LoggedInUser.PictureNormalURL;
             this.CoverPhotoUrl = i_LoggedInUser.Cover != null ? i_LoggedInUser.Cover.SourceURL : null;
-            createFriendsNamesList(i_LoggedInUser.Friends);
-            createCheckinsList(i_LoggedInUser.Checkins);
-            createPostsDataList(i_LoggedInUser.Posts);
+            createAllDataLists(i_LoggedInUser);
+        }
+
+        private void createAllDataLists(User i_LoggedInUser)
+        {
+            FacebookObjectCollection<User> friends;
+            FacebookObjectCollection<Checkin> checkins;
+            FacebookObjectCollection<Post> posts;
+            FacebookObjectCollection<Group> groups;
+
+            try
+            {
+                friends = i_LoggedInUser.Friends;
+            }
+            catch
+            {
+                friends = null;
+            }
+
+            createFriendsNamesList(friends);
+
+            try
+            {
+                checkins = i_LoggedInUser.Checkins;
+            }
+            catch
+            {
+                checkins = null;
+            }
+
+            createCheckinsList(checkins);
+
+            try
+            {
+                posts = i_LoggedInUser.Posts;
+            }
+            catch
+            {
+                posts = null;
+            }
+
+            createPostsDataList(posts);
+
+            try
+            {
+                groups = i_LoggedInUser.Groups;
+            }
+            catch
+            {
+                groups = null;
+            }
+
+            createGroupsDataList(groups);
+        }
+
+        private void createGroupsDataList(FacebookObjectCollection<Group> i_Groups)
+        {
+            this.GroupsData = new List<GroupData>();
+
+            if (i_Groups != null)
+            {
+                foreach (Group group in i_Groups)
+                {
+                    this.GroupsData.Add(new GroupData(group));
+                }
+            }
         }
 
         private void createPostsDataList(FacebookObjectCollection<Post> i_Posts)
         {
             this.PostsData = new List<PostData>();
 
-            foreach(Post post in i_Posts)
+            if (i_Posts != null)
             {
-                this.PostsData.Add(new PostData(post));
+                foreach (Post post in i_Posts)
+                {
+                    this.PostsData.Add(new PostData(post));
+                }
             }
         }
 
@@ -42,9 +109,12 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             this.Checkins = new List<string>();
 
-            foreach (Checkin checkin in i_Checkins)
+            if (i_Checkins != null)
             {
-                this.Checkins.Add(string.Format("{0},{1} At {2}", checkin.Place.Location.City, checkin.Place.Location.Country, checkin.CreatedTime.Value.ToShortDateString()));
+                foreach (Checkin checkin in i_Checkins)
+                {
+                    this.Checkins.Add(string.Format("{0},{1} At {2}", checkin.Place.Location.City, checkin.Place.Location.Country, checkin.CreatedTime.Value.ToShortDateString()));
+                }
             }
         }
 
@@ -52,9 +122,12 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         {
             this.FriendsNames = new List<string>();
 
-            foreach (User friend in i_Friends)
+            if (i_Friends != null)
             {
-                this.FriendsNames.Add(friend.Name);
+                foreach (User friend in i_Friends)
+                {
+                    this.FriendsNames.Add(friend.Name);
+                }
             }
         }
     }

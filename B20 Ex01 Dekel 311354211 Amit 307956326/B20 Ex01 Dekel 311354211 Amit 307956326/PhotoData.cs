@@ -12,10 +12,10 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         public string PhotoURL { get; set; }
         public int NumOfLikes { get; set; }
 
-        public PhotoData(Photo photo)
+        public PhotoData(Photo i_Photo)
         {
-            this.PhotoURL = photo.PictureNormalURL;
-            this.NumOfLikes = photo.LikedBy.Count;
+            this.PhotoURL = i_Photo.PictureNormalURL;
+            this.NumOfLikes = i_Photo.LikedBy.Count;
         }
     }
 }
