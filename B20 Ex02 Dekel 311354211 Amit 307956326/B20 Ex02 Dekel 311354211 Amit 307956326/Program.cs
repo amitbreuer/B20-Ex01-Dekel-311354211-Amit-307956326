@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace B20_Ex01_Dekel_311354211_Amit_307956326
+namespace B20_Ex02_Dekel_311354211_Amit_307956326
 {
     public static class x
     {

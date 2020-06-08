@@ -85,7 +85,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="B20 Ex01 Dekel 311354211 Amit 307956326.docx" />
     <None Include="ClassDiagram1.cd" />
     <None Include="Properties\DataSources\GroupData.datasource" />
     <None Include="Properties\Settings.settings">

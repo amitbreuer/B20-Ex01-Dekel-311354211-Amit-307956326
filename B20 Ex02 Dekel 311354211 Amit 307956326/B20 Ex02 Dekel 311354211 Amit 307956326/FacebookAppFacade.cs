@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Threading;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
 
-namespace B20_Ex01_Dekel_311354211_Amit_307956326
+namespace B20_Ex02_Dekel_311354211_Amit_307956326
 {
     public delegate void FacebookConnectionNotifier(LoggedInUserData i_UserData);
 
@@ -29,6 +26,13 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         public void Connect()
         {
+            Thread thread = new Thread(asyncConnect);
+            thread.ApartmentState = System.Threading.ApartmentState.STA;
+            thread.Start();
+        }
+
+        private void asyncConnect()
+        {
             if (AppSettings.RememberUser && !string.IsNullOrEmpty(AppSettings.LastAccessToken))
             {
                 LoginResult loginResult = FacebookService.Connect(AppSettings.LastAccessToken);
@@ -40,27 +44,34 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
 
         public void Login()
         {
+            Thread thread = new Thread(asyncLogin);
+            thread.ApartmentState = System.Threading.ApartmentState.STA;
+            thread.Start();
+        }
+
+        private void asyncLogin()
+        {
             LoginResult loginResult = FacebookWrapper.FacebookService.Login(
-            "202490531010346",
-            "public_profile",
-            "email",
-            "publish_to_groups",
-            "user_age_range",
-            "user_gender",
-            "user_link",
-            "user_tagged_places",
-            "user_videos",
-            "groups_access_member_info",
-            "user_friends",
-            "user_likes",
-            "user_photos",
-            "user_posts",
-            "user_hometown");
+                "202490531010346",
+                "public_profile",
+                "email",
+                "publish_to_groups",
+                "user_age_range",
+                "user_gender",
+                "user_link",
+                "user_tagged_places",
+                "user_videos",
+                "groups_access_member_info",
+                "user_friends",
+                "user_likes",
+                "user_photos",
+                "user_posts",
+                "user_hometown");
 
             LoggedInUser = loginResult.LoggedInUser;
             AppSettings.LastAccessToken = loginResult.AccessToken;
             FacebookCacheProxy.Instace.LoggedInUser = LoggedInUser;
-            m_FacebookConnectionNotifier.Invoke(new LoggedInUserData(LoggedInUser, loginResult.AccessToken));
+            m_FacebookConnectionNotifier.Invoke(new LoggedInUserData(LoggedInUser, AppSettings.LastAccessToken));
         }
 
         public void CloseApplication()

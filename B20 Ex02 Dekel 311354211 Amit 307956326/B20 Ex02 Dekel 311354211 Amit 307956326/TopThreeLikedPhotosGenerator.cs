@@ -5,14 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using FacebookWrapper.ObjectModel;
 
-namespace B20_Ex01_Dekel_311354211_Amit_307956326
+namespace B20_Ex02_Dekel_311354211_Amit_307956326
 {
-    static class TopThreeLikedPhotosGenerator
+    public static class TopThreeLikedPhotosGenerator
     {
-        
-       public static List<PhotoData> Generate(User i_LoggedInUser)
+        public static List<PhotoData> Generate(User i_LoggedInUser)
         {
-            List<PhotoData>  allPhotosData = new List<PhotoData>();
+            List<PhotoData> allPhotosData = new List<PhotoData>();
             FacebookObjectCollection<Album> albums;
 
             try
@@ -34,10 +33,10 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                     }
                 }
 
-               allPhotosData.OrderBy(PictureData => PictureData.NumOfLikes);
+                allPhotosData.OrderBy(PictureData => PictureData.NumOfLikes);
             }
 
-            return allPhotosData.Count<=3 ? allPhotosData: allPhotosData.Take(3) as List<PhotoData>;
+            return allPhotosData.Count < 4 ? allPhotosData : allPhotosData.Take(3) as List<PhotoData>;
         }
     }
 }

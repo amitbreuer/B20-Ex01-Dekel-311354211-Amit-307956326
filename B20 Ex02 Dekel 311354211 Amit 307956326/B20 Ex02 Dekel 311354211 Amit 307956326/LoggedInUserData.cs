@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FacebookWrapper.ObjectModel;
 
-namespace B20_Ex01_Dekel_311354211_Amit_307956326
+namespace B20_Ex02_Dekel_311354211_Amit_307956326
 {
     public class LoggedInUserData
     {
         public string AccessToken { get; set; }
+
         public string Name { get; set; }
+
         public string ProfilePictureUrl { get; set; }
+
         public string CoverPhotoUrl { get; set; }
+
         public List<string> FriendsNames { get; set; }
+
         public List<string> Checkins { get; set; }
+
         public List<PostData> PostsData { get; set; }
+
         public List<GroupData> GroupsData { get; set; }
 
         public LoggedInUserData(User i_LoggedInUser, string i_AccessToken)

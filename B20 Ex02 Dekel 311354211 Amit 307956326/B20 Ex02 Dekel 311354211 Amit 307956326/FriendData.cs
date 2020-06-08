@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using FacebookWrapper.ObjectModel;
 
-namespace B20_Ex01_Dekel_311354211_Amit_307956326
+namespace B20_Ex02_Dekel_311354211_Amit_307956326
 {
     public class FriendData : IComparable
     {
@@ -32,6 +32,22 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
             this.NumberOfSharedGroups = -1;
 
             updateFriendData(i_User, i_Friend);
+        }
+
+        private static bool isUserInCollectionOfUser(User i_User, ICollection<User> i_CollectionOfUsers)
+        {
+            bool exists = false;
+
+            foreach (User user in i_CollectionOfUsers)
+            {
+                if (user.Name.Equals(i_User.Name))
+                {
+                    exists = true;
+                    break;
+                }
+            }
+
+            return exists;
         }
 
         private void updateFriendData(User i_User, User i_Friend)
@@ -172,23 +188,6 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
                     }
                 }
             }
-
-        }
-
-        private static bool isUserInCollectionOfUser(User i_User, ICollection<User> i_CollectionOfUsers)
-        {
-            bool exists = false;
-
-            foreach (User user in i_CollectionOfUsers)
-            {
-                if (user.Name.Equals(i_User.Name))
-                {
-                    exists = true;
-                    break;
-                }
-            }
-
-            return exists;
         }
 
         public int CompareTo(object obj)

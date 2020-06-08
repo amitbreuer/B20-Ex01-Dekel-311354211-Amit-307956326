@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace B20_Ex01_Dekel_311354211_Amit_307956326.Properties
+namespace B20_Ex02_Dekel_311354211_Amit_307956326.Properties
 {
 
 

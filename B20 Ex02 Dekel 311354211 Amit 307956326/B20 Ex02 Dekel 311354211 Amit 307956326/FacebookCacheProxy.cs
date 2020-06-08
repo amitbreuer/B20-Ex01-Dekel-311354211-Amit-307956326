@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
 
-namespace B20_Ex01_Dekel_311354211_Amit_307956326
+namespace B20_Ex02_Dekel_311354211_Amit_307956326
 {
     public sealed class FacebookCacheProxy
     {
@@ -43,15 +37,6 @@ namespace B20_Ex01_Dekel_311354211_Amit_307956326
         private List<PhotoData> s_TopThreeLikedPhotos;
 
         public List<FriendData> FriendsDataList { get; set; }
-
-        public User Connect(string i_AccessToken, out bool o_Connected)
-        {
-            LoginResult loginResult = FacebookService.Connect(i_AccessToken);
-
-            o_Connected = !string.IsNullOrEmpty(loginResult.AccessToken);
-
-            return loginResult.LoggedInUser;
-        }
 
         public List<PhotoData> GetTopThreeLikedPhotos(User i_LoggedInUser)
         {

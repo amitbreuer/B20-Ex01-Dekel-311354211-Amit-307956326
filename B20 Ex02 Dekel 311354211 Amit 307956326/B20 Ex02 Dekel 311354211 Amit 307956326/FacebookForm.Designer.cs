@@ -1,4 +1,4 @@
-﻿namespace B20_Ex01_Dekel_311354211_Amit_307956326
+﻿namespace B20_Ex02_Dekel_311354211_Amit_307956326
 {
     public partial class FacebookForm
     {
@@ -118,7 +118,7 @@
             // linkLabel
             // 
             linkLabel.AutoSize = true;
-            linkLabel.Location = new System.Drawing.Point(68, 330);
+            linkLabel.Location = new System.Drawing.Point(68, 379);
             linkLabel.Name = "linkLabel";
             linkLabel.Size = new System.Drawing.Size(54, 25);
             linkLabel.TabIndex = 4;
@@ -136,7 +136,7 @@
             // ownerNameLabel
             // 
             ownerNameLabel.AutoSize = true;
-            ownerNameLabel.Location = new System.Drawing.Point(68, 291);
+            ownerNameLabel.Location = new System.Drawing.Point(68, 340);
             ownerNameLabel.Name = "ownerNameLabel";
             ownerNameLabel.Size = new System.Drawing.Size(133, 25);
             ownerNameLabel.TabIndex = 8;
@@ -397,7 +397,7 @@
             // 
             // pictureBox8
             // 
-            this.pictureBox8.Image = global::B20_Ex01_Dekel_311354211_Amit_307956326.Properties.Resources.Trophy3;
+            this.pictureBox8.Image = global::B20_Ex02_Dekel_311354211_Amit_307956326.Properties.Resources.Trophy3;
             this.pictureBox8.Location = new System.Drawing.Point(983, 435);
             this.pictureBox8.Name = "pictureBox8";
             this.pictureBox8.Size = new System.Drawing.Size(103, 57);
@@ -407,7 +407,7 @@
             // 
             // pictureBox7
             // 
-            this.pictureBox7.Image = global::B20_Ex01_Dekel_311354211_Amit_307956326.Properties.Resources.Trophy1;
+            this.pictureBox7.Image = global::B20_Ex02_Dekel_311354211_Amit_307956326.Properties.Resources.Trophy1;
             this.pictureBox7.Location = new System.Drawing.Point(561, 437);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Size = new System.Drawing.Size(104, 57);
@@ -417,7 +417,7 @@
             // 
             // pictureBox6
             // 
-            this.pictureBox6.Image = global::B20_Ex01_Dekel_311354211_Amit_307956326.Properties.Resources.Trophy2;
+            this.pictureBox6.Image = global::B20_Ex02_Dekel_311354211_Amit_307956326.Properties.Resources.Trophy2;
             this.pictureBox6.Location = new System.Drawing.Point(118, 437);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(103, 57);
@@ -536,7 +536,7 @@
             // 
             // tabControl
             // 
-            this.tabControl.AccessibleName = "";
+            this.tabControl.AccessibleName = string.Empty;
             this.tabControl.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.tabControl.Controls.Add(this.tabGeneralInfo);
             this.tabControl.Controls.Add(this.tabTop3Photos);
@@ -580,12 +580,12 @@
             this.listBoxGroups.ItemHeight = 25;
             this.listBoxGroups.Location = new System.Drawing.Point(88, 92);
             this.listBoxGroups.Name = "listBoxGroups";
-            this.listBoxGroups.Size = new System.Drawing.Size(225, 379);
+            this.listBoxGroups.Size = new System.Drawing.Size(225, 429);
             this.listBoxGroups.TabIndex = 1;
             // 
             // groupDataBindingSource
             // 
-            this.groupDataBindingSource.DataSource = typeof(B20_Ex01_Dekel_311354211_Amit_307956326.GroupData);
+            this.groupDataBindingSource.DataSource = typeof(B20_Ex02_Dekel_311354211_Amit_307956326.GroupData);
             // 
             // panel1
             // 
@@ -600,16 +600,16 @@
             this.panel1.Controls.Add(this.ownerNameLabel1);
             this.panel1.Location = new System.Drawing.Point(414, 92);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(458, 379);
+            this.panel1.Size = new System.Drawing.Size(458, 429);
             this.panel1.TabIndex = 0;
             // 
             // descriptionTextBox
             // 
             this.descriptionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.groupDataBindingSource, "Description", true));
-            this.descriptionTextBox.Location = new System.Drawing.Point(212, 170);
+            this.descriptionTextBox.Location = new System.Drawing.Point(78, 211);
             this.descriptionTextBox.Multiline = true;
             this.descriptionTextBox.Name = "descriptionTextBox";
-            this.descriptionTextBox.Size = new System.Drawing.Size(222, 74);
+            this.descriptionTextBox.Size = new System.Drawing.Size(229, 108);
             this.descriptionTextBox.TabIndex = 1;
             // 
             // iconUrlPictureBox
@@ -624,7 +624,7 @@
             // linkLinkLabel
             // 
             this.linkLinkLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.groupDataBindingSource, "Link", true));
-            this.linkLinkLabel.Location = new System.Drawing.Point(128, 330);
+            this.linkLinkLabel.Location = new System.Drawing.Point(128, 379);
             this.linkLinkLabel.Name = "linkLinkLabel";
             this.linkLinkLabel.Size = new System.Drawing.Size(306, 25);
             this.linkLinkLabel.TabIndex = 5;
@@ -643,7 +643,7 @@
             // ownerNameLabel1
             // 
             this.ownerNameLabel1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.groupDataBindingSource, "OwnerName", true));
-            this.ownerNameLabel1.Location = new System.Drawing.Point(207, 291);
+            this.ownerNameLabel1.Location = new System.Drawing.Point(207, 340);
             this.ownerNameLabel1.Name = "ownerNameLabel1";
             this.ownerNameLabel1.Size = new System.Drawing.Size(193, 39);
             this.ownerNameLabel1.TabIndex = 9;
