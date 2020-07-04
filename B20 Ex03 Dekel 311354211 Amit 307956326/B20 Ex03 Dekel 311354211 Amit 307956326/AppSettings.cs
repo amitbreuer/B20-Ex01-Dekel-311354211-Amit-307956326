@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace B20_Ex02_Dekel_311354211_Amit_307956326
+namespace B20_Ex03_Dekel_311354211_Amit_307956326
 {
     public class AppSettings
     {

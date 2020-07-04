@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FacebookWrapper.ObjectModel;
 
-namespace B20_Ex02_Dekel_311354211_Amit_307956326
+namespace B20_Ex03_Dekel_311354211_Amit_307956326
 {
     public static class TopThreeLikedPhotosGenerator
     {
@@ -27,7 +27,9 @@ namespace B20_Ex02_Dekel_311354211_Amit_307956326
             {
                 foreach (Album album in albums)
                 {
-                    foreach (Photo photo in album.Photos)
+                    PhotosWithLikesCollection photos = new PhotosWithLikesCollection(album.Photos);
+
+                    foreach (Photo photo in photos)
                     {
                         allPhotosData.Add(new PhotoData(photo));
                     }

@@ -1,4 +1,4 @@
-﻿namespace B20_Ex02_Dekel_311354211_Amit_307956326
+﻿namespace B20_Ex03_Dekel_311354211_Amit_307956326
 {
     public partial class FacebookForm
     {
@@ -397,7 +397,7 @@
             // 
             // pictureBox8
             // 
-            this.pictureBox8.Image = global::B20_Ex02_Dekel_311354211_Amit_307956326.Properties.Resources.Trophy3;
+            this.pictureBox8.Image = global::B20_Ex03_Dekel_311354211_Amit_307956326.Properties.Resources.Trophy3;
             this.pictureBox8.Location = new System.Drawing.Point(983, 435);
             this.pictureBox8.Name = "pictureBox8";
             this.pictureBox8.Size = new System.Drawing.Size(103, 57);
@@ -407,7 +407,7 @@
             // 
             // pictureBox7
             // 
-            this.pictureBox7.Image = global::B20_Ex02_Dekel_311354211_Amit_307956326.Properties.Resources.Trophy1;
+            this.pictureBox7.Image = global::B20_Ex03_Dekel_311354211_Amit_307956326.Properties.Resources.Trophy1;
             this.pictureBox7.Location = new System.Drawing.Point(561, 437);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Size = new System.Drawing.Size(104, 57);
@@ -417,7 +417,7 @@
             // 
             // pictureBox6
             // 
-            this.pictureBox6.Image = global::B20_Ex02_Dekel_311354211_Amit_307956326.Properties.Resources.Trophy2;
+            this.pictureBox6.Image = global::B20_Ex03_Dekel_311354211_Amit_307956326.Properties.Resources.Trophy2;
             this.pictureBox6.Location = new System.Drawing.Point(118, 437);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(103, 57);
@@ -585,7 +585,7 @@
             // 
             // groupDataBindingSource
             // 
-            this.groupDataBindingSource.DataSource = typeof(B20_Ex02_Dekel_311354211_Amit_307956326.GroupData);
+            this.groupDataBindingSource.DataSource = typeof(B20_Ex03_Dekel_311354211_Amit_307956326.GroupData);
             // 
             // panel1
             // 

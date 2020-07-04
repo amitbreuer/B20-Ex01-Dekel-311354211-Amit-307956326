@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace B20_Ex02_Dekel_311354211_Amit_307956326
+namespace B20_Ex03_Dekel_311354211_Amit_307956326
 {
     public partial class FacebookForm : Form
     {

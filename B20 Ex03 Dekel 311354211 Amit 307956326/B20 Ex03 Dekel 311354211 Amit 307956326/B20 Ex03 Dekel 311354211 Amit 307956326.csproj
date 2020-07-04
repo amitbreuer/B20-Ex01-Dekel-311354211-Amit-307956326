@@ -68,6 +68,8 @@
     <Compile Include="GroupData.cs" />
     <Compile Include="LoggedInUserData.cs" />
     <Compile Include="PhotoData.cs" />
+    <Compile Include="PhotosWithLikesCollection.cs" />
+    <Compile Include="PhotosWithLikesIterator.cs" />
     <Compile Include="PostData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
