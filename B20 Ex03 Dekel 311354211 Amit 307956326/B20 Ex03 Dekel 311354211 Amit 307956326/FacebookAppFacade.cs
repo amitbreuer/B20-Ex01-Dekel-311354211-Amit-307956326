@@ -130,9 +130,9 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
             return friendToRate;
         }
 
-        public FriendData GetFriendDataByName(string i_FriendName)
+        public FriendData GetFriendDataByName(string i_FriendName, bool i_CalculateByInteractions)
         {
-            return FacebookCacheProxy.Instace.GetFriendDataByName(i_FriendName);
+            return FacebookCacheProxy.Instace.GetFriendDataByName(i_FriendName, i_CalculateByInteractions);
         }
     }
 }

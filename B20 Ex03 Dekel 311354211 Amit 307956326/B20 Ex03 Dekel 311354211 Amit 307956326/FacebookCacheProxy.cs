@@ -8,6 +8,7 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
     {
         private static FacebookCacheProxy s_Instance = null;
         private static object s_LockObj = new object();
+        private IFriendScoreCalculator m_FriendScoreCalculator;
 
         private FacebookCacheProxy()
         {
@@ -48,14 +49,25 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
             return s_TopThreeLikedPhotos;
         }
 
-        public FriendData GetFriendDataByName(string i_FriendName)
+        public FriendData GetFriendDataByName(string i_FriendName, bool i_CalculateByInteractions)
         {
             FriendData o_FriendData = null;
 
             if (FriendsDataList == null)
             {
-                FetchSortedFriendsDataList();
+                FetchFriendsData();
             }
+
+            if (i_CalculateByInteractions)
+            {
+                m_FriendScoreCalculator = new FriendScoreCalculatorByInteractions();
+            }
+            else
+            {
+                m_FriendScoreCalculator = new FriendScoreCalculatorBySharedInterests();
+            }
+
+            SortFriendsDataListByChosenStrategy();
 
             foreach (FriendData friendData in FriendsDataList)
             {
@@ -68,20 +80,30 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
             return o_FriendData;
         }
 
-        public void FetchSortedFriendsDataList()
+        public void FetchFriendsData()
+        {
+            FriendsDataList = new List<FriendData>();
+
+            foreach (User friend in LoggedInUser.Friends)
+            {
+                FriendData friendData = new FriendData(LoggedInUser, friend);
+                FriendsDataList.Add(friendData);
+            }
+        }
+
+        public void SortFriendsDataListByChosenStrategy()
         {
             if (FriendsDataList == null)
             {
-                FriendsDataList = new List<FriendData>();
-
-                foreach (User friend in LoggedInUser.Friends)
-                {
-                    FriendData friendData = new FriendData(LoggedInUser, friend);
-                    FriendsDataList.Add(friendData);
-                }
-
-                FriendsDataList.Sort();
+                FetchFriendsData();
             }
+
+            foreach (FriendData friendData in FriendsDataList)
+            {
+                friendData.Score = m_FriendScoreCalculator.CalculateFriendScore(friendData);
+            }
+
+            FriendsDataList.Sort();
         }
     }
 }

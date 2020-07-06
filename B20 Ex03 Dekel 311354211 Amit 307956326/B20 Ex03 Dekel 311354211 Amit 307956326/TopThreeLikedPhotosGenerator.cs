@@ -27,11 +27,23 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
             {
                 foreach (Album album in albums)
                 {
-                    PhotosWithLikesCollection photos = new PhotosWithLikesCollection(album.Photos);
+                    PhotosWithLikesCollection photos;
 
-                    foreach (Photo photo in photos)
+                    try
                     {
-                        allPhotosData.Add(new PhotoData(photo));
+                        photos = new PhotosWithLikesCollection(album.Photos);
+                    }
+                    catch
+                    {
+                        photos = null;
+                    }
+
+                    if (photos != null)
+                    {
+                        foreach (Photo photo in photos)
+                        {
+                            allPhotosData.Add(new PhotoData(photo));
+                        }
                     }
                 }
 

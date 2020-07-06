@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6BE06794-113E-40E4-AA70-E1C8BF1B01DC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>B20_Ex01_Dekel_311354211_Amit_307956326</RootNamespace>
+    <RootNamespace>B20_Ex03_Dekel_311354211_Amit_307956326</RootNamespace>
     <AssemblyName>B20 Ex01 Dekel 311354211 Amit 307956326</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
+    <Compile Include="FriendScoreCalculatorByInteractions.cs" />
     <Compile Include="FacebookCacheProxy.cs" />
     <Compile Include="FacebookForm.cs">
       <SubType>Form</SubType>
@@ -65,7 +66,9 @@
     </Compile>
     <Compile Include="FriendData.cs" />
     <Compile Include="FacebookAppFacade.cs" />
+    <Compile Include="FriendScoreCalculatorBySharedInterests.cs" />
     <Compile Include="GroupData.cs" />
+    <Compile Include="IFriendScoreCalculator.cs" />
     <Compile Include="LoggedInUserData.cs" />
     <Compile Include="PhotoData.cs" />
     <Compile Include="PhotosWithLikesCollection.cs" />

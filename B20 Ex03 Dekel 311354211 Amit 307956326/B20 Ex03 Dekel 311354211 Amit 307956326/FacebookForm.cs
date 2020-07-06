@@ -185,12 +185,12 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
         private void listBoxRatingFriendsList_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedFriendName = listBoxRatingFriendsList.SelectedItem.ToString();
-            new Thread(() => fetchAndUpdateSelectedFriendData(selectedFriendName)).Start();
+            new Thread(() => fetchAndUpdateSelectedFriendData(selectedFriendName,radioButtonInteractions.Checked)).Start();
         }
 
-        private void fetchAndUpdateSelectedFriendData(string i_FriendName)
+        private void fetchAndUpdateSelectedFriendData(string i_FriendName, bool i_CalculateByInteractions)
         {
-            FriendData friendData = m_FacebookAppFacade.GetFriendDataByName(i_FriendName);
+            FriendData friendData = m_FacebookAppFacade.GetFriendDataByName(i_FriendName, i_CalculateByInteractions);
 
             if (friendData != null)
             {
@@ -211,13 +211,15 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
                 pictureBoxRatingFriendProfilePic.Invoke(new Action(() => pictureBoxRatingFriendProfilePic.Load(i_FriendData.ProfilePictureUrl)));
             }
 
-            labelRatingTabLikesCount.Invoke(new Action(() => labelRatingTabLikesCount.Text = i_FriendData.NumberOfLikes != -1 ? i_FriendData.NumberOfLikes.ToString() : "-"));
-            labelRatingTabCommentsCount.Invoke(new Action(() => labelRatingTabCommentsCount.Text = i_FriendData.NumberOfComments != -1 ? i_FriendData.NumberOfComments.ToString() : "-"));
-            labelRatingTabCheckinsCount.Invoke(new Action(() => labelRatingTabCheckinsCount.Text = i_FriendData.NumberOfSharedCheckins != -1 ? i_FriendData.NumberOfSharedCheckins.ToString() : "-"));
-            labelRatinTabPagesCount.Invoke(new Action(() => labelRatinTabPagesCount.Text = i_FriendData.NumberOfSharedPages != -1 ? i_FriendData.NumberOfSharedPages.ToString() : "-"));
-            labelRatingTabGroupsCount.Invoke(new Action(() => labelRatingTabGroupsCount.Text = i_FriendData.NumberOfSharedGroups != -1 ? i_FriendData.NumberOfSharedGroups.ToString() : "-"));
+            labelRatingTabLikesFromCount.Invoke(new Action(() => labelRatingTabLikesFromCount.Text = i_FriendData.NumberOfLikesFromFriend != -1 ? i_FriendData.NumberOfLikesFromFriend.ToString() : "0"));
+            labelRatingTabLikesToCount.Invoke(new Action(() => labelRatingTabLikesToCount.Text = i_FriendData.NumberOfLikesToFriend != -1 ? i_FriendData.NumberOfLikesToFriend.ToString() : "0"));
+            labelRatingTabCommentsFromCount.Invoke(new Action(() => labelRatingTabCommentsFromCount.Text = i_FriendData.NumberOfCommentsFromFriend != -1 ? i_FriendData.NumberOfCommentsFromFriend.ToString() : "0"));
+            labelRatingTabCommentsToCount.Invoke(new Action(() => labelRatingTabCommentsToCount.Text = i_FriendData.NumberOfCommentsToFriend != -1 ? i_FriendData.NumberOfCommentsToFriend.ToString() : "0"));
+            labelRatingTabCheckinsCount.Invoke(new Action(() => labelRatingTabCheckinsCount.Text = i_FriendData.NumberOfSharedCheckins != -1 ? i_FriendData.NumberOfSharedCheckins.ToString() : "0"));
+            labelRatinTabPagesCount.Invoke(new Action(() => labelRatinTabPagesCount.Text = i_FriendData.NumberOfSharedPages != -1 ? i_FriendData.NumberOfSharedPages.ToString() : "0"));
+            labelRatingTabGroupsCount.Invoke(new Action(() => labelRatingTabGroupsCount.Text = i_FriendData.NumberOfSharedGroups != -1 ? i_FriendData.NumberOfSharedGroups.ToString() : "0"));
             friendRank = m_FacebookAppFacade.GetFriendRankInFriendsList(i_FriendData.Name);
-            labelRatingTabRankMessage.Invoke(new Action(() => labelRatingTabRankMessage.Text = string.Format("is ranked {1}# in your friends!", i_FriendData.Name, friendRank)));
+            labelRatingTabRankMessage.Invoke(new Action(() => labelRatingTabRankMessage.Text = string.Format("{0} is ranked {1}# in your friends!", i_FriendData.Name, friendRank)));
         }
     }
 }

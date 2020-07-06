@@ -40,12 +40,20 @@
             this.pictureBoxProfilePicture = new System.Windows.Forms.PictureBox();
             this.pictureBoxCoverPhoto = new System.Windows.Forms.PictureBox();
             this.tabRatingFreinds = new System.Windows.Forms.TabPage();
+            this.labelRatingTabCommentsToCount = new System.Windows.Forms.Label();
+            this.labelRatingTabLikesToCount = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButtonSharedInterests = new System.Windows.Forms.RadioButton();
+            this.radioButtonInteractions = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
             this.labelRatingTabRankMessage = new System.Windows.Forms.Label();
             this.labelRatingTabGroupsCount = new System.Windows.Forms.Label();
             this.labelRatinTabPagesCount = new System.Windows.Forms.Label();
             this.labelRatingTabCheckinsCount = new System.Windows.Forms.Label();
-            this.labelRatingTabCommentsCount = new System.Windows.Forms.Label();
-            this.labelRatingTabLikesCount = new System.Windows.Forms.Label();
+            this.labelRatingTabCommentsFromCount = new System.Windows.Forms.Label();
+            this.labelRatingTabLikesFromCount = new System.Windows.Forms.Label();
             this.labelRatingChooseFriend = new System.Windows.Forms.Label();
             this.listBoxRatingFriendsList = new System.Windows.Forms.ListBox();
             this.pictureBoxRatingFriendProfilePic = new System.Windows.Forms.PictureBox();
@@ -90,6 +98,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).BeginInit();
             this.tabRatingFreinds.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRatingFriendProfilePic)).BeginInit();
             this.tabTop3Photos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxThirdMostLikedPicture)).BeginInit();
@@ -192,12 +201,17 @@
             // 
             // tabRatingFreinds
             // 
+            this.tabRatingFreinds.Controls.Add(this.labelRatingTabCommentsToCount);
+            this.tabRatingFreinds.Controls.Add(this.labelRatingTabLikesToCount);
+            this.tabRatingFreinds.Controls.Add(this.label5);
+            this.tabRatingFreinds.Controls.Add(this.label7);
+            this.tabRatingFreinds.Controls.Add(this.groupBox1);
             this.tabRatingFreinds.Controls.Add(this.labelRatingTabRankMessage);
             this.tabRatingFreinds.Controls.Add(this.labelRatingTabGroupsCount);
             this.tabRatingFreinds.Controls.Add(this.labelRatinTabPagesCount);
             this.tabRatingFreinds.Controls.Add(this.labelRatingTabCheckinsCount);
-            this.tabRatingFreinds.Controls.Add(this.labelRatingTabCommentsCount);
-            this.tabRatingFreinds.Controls.Add(this.labelRatingTabLikesCount);
+            this.tabRatingFreinds.Controls.Add(this.labelRatingTabCommentsFromCount);
+            this.tabRatingFreinds.Controls.Add(this.labelRatingTabLikesFromCount);
             this.tabRatingFreinds.Controls.Add(this.labelRatingChooseFriend);
             this.tabRatingFreinds.Controls.Add(this.listBoxRatingFriendsList);
             this.tabRatingFreinds.Controls.Add(this.pictureBoxRatingFriendProfilePic);
@@ -214,11 +228,91 @@
             this.tabRatingFreinds.Text = "Rate Your Friends";
             this.tabRatingFreinds.UseVisualStyleBackColor = true;
             // 
+            // labelRatingTabCommentsToCount
+            // 
+            this.labelRatingTabCommentsToCount.AutoSize = true;
+            this.labelRatingTabCommentsToCount.Location = new System.Drawing.Point(711, 199);
+            this.labelRatingTabCommentsToCount.Name = "labelRatingTabCommentsToCount";
+            this.labelRatingTabCommentsToCount.Size = new System.Drawing.Size(19, 25);
+            this.labelRatingTabCommentsToCount.TabIndex = 21;
+            this.labelRatingTabCommentsToCount.Text = "-";
+            this.labelRatingTabCommentsToCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelRatingTabLikesToCount
+            // 
+            this.labelRatingTabLikesToCount.AutoSize = true;
+            this.labelRatingTabLikesToCount.Location = new System.Drawing.Point(711, 155);
+            this.labelRatingTabLikesToCount.Name = "labelRatingTabLikesToCount";
+            this.labelRatingTabLikesToCount.Size = new System.Drawing.Size(19, 25);
+            this.labelRatingTabLikesToCount.TabIndex = 20;
+            this.labelRatingTabLikesToCount.Text = "-";
+            this.labelRatingTabLikesToCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(786, 199);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(327, 25);
+            this.label5.TabIndex = 19;
+            this.label5.Text = "Comments from you to friend\'s posts";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(786, 155);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(278, 25);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "Likes from you to friend\'s posts";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.radioButtonSharedInterests);
+            this.groupBox1.Controls.Add(this.radioButtonInteractions);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Location = new System.Drawing.Point(35, 48);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(223, 100);
+            this.groupBox1.TabIndex = 17;
+            this.groupBox1.TabStop = false;
+            // 
+            // radioButtonSharedInterests
+            // 
+            this.radioButtonSharedInterests.AutoSize = true;
+            this.radioButtonSharedInterests.Location = new System.Drawing.Point(11, 64);
+            this.radioButtonSharedInterests.Name = "radioButtonSharedInterests";
+            this.radioButtonSharedInterests.Size = new System.Drawing.Size(180, 29);
+            this.radioButtonSharedInterests.TabIndex = 18;
+            this.radioButtonSharedInterests.TabStop = true;
+            this.radioButtonSharedInterests.Text = "Shared Interests";
+            this.radioButtonSharedInterests.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonInteractions
+            // 
+            this.radioButtonInteractions.AutoSize = true;
+            this.radioButtonInteractions.Location = new System.Drawing.Point(14, 29);
+            this.radioButtonInteractions.Name = "radioButtonInteractions";
+            this.radioButtonInteractions.Size = new System.Drawing.Size(137, 29);
+            this.radioButtonInteractions.TabIndex = 17;
+            this.radioButtonInteractions.TabStop = true;
+            this.radioButtonInteractions.Text = "Interactions";
+            this.radioButtonInteractions.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(147, 25);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "Rate friends by:";
+            // 
             // labelRatingTabRankMessage
             // 
             this.labelRatingTabRankMessage.AutoSize = true;
             this.labelRatingTabRankMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRatingTabRankMessage.Location = new System.Drawing.Point(343, 390);
+            this.labelRatingTabRankMessage.Location = new System.Drawing.Point(343, 394);
             this.labelRatingTabRankMessage.Name = "labelRatingTabRankMessage";
             this.labelRatingTabRankMessage.Size = new System.Drawing.Size(0, 37);
             this.labelRatingTabRankMessage.TabIndex = 13;
@@ -227,7 +321,7 @@
             // labelRatingTabGroupsCount
             // 
             this.labelRatingTabGroupsCount.AutoSize = true;
-            this.labelRatingTabGroupsCount.Location = new System.Drawing.Point(711, 284);
+            this.labelRatingTabGroupsCount.Location = new System.Drawing.Point(711, 333);
             this.labelRatingTabGroupsCount.Name = "labelRatingTabGroupsCount";
             this.labelRatingTabGroupsCount.Size = new System.Drawing.Size(19, 25);
             this.labelRatingTabGroupsCount.TabIndex = 12;
@@ -237,7 +331,7 @@
             // labelRatinTabPagesCount
             // 
             this.labelRatinTabPagesCount.AutoSize = true;
-            this.labelRatinTabPagesCount.Location = new System.Drawing.Point(711, 236);
+            this.labelRatinTabPagesCount.Location = new System.Drawing.Point(711, 287);
             this.labelRatinTabPagesCount.Name = "labelRatinTabPagesCount";
             this.labelRatinTabPagesCount.Size = new System.Drawing.Size(19, 25);
             this.labelRatinTabPagesCount.TabIndex = 11;
@@ -247,37 +341,37 @@
             // labelRatingTabCheckinsCount
             // 
             this.labelRatingTabCheckinsCount.AutoSize = true;
-            this.labelRatingTabCheckinsCount.Location = new System.Drawing.Point(711, 187);
+            this.labelRatingTabCheckinsCount.Location = new System.Drawing.Point(711, 243);
             this.labelRatingTabCheckinsCount.Name = "labelRatingTabCheckinsCount";
             this.labelRatingTabCheckinsCount.Size = new System.Drawing.Size(19, 25);
             this.labelRatingTabCheckinsCount.TabIndex = 10;
             this.labelRatingTabCheckinsCount.Text = "-";
             this.labelRatingTabCheckinsCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // labelRatingTabCommentsCount
+            // labelRatingTabCommentsFromCount
             // 
-            this.labelRatingTabCommentsCount.AutoSize = true;
-            this.labelRatingTabCommentsCount.Location = new System.Drawing.Point(711, 138);
-            this.labelRatingTabCommentsCount.Name = "labelRatingTabCommentsCount";
-            this.labelRatingTabCommentsCount.Size = new System.Drawing.Size(19, 25);
-            this.labelRatingTabCommentsCount.TabIndex = 9;
-            this.labelRatingTabCommentsCount.Text = "-";
-            this.labelRatingTabCommentsCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelRatingTabCommentsFromCount.AutoSize = true;
+            this.labelRatingTabCommentsFromCount.Location = new System.Drawing.Point(711, 111);
+            this.labelRatingTabCommentsFromCount.Name = "labelRatingTabCommentsFromCount";
+            this.labelRatingTabCommentsFromCount.Size = new System.Drawing.Size(19, 25);
+            this.labelRatingTabCommentsFromCount.TabIndex = 9;
+            this.labelRatingTabCommentsFromCount.Text = "-";
+            this.labelRatingTabCommentsFromCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // labelRatingTabLikesCount
+            // labelRatingTabLikesFromCount
             // 
-            this.labelRatingTabLikesCount.AutoSize = true;
-            this.labelRatingTabLikesCount.Location = new System.Drawing.Point(711, 93);
-            this.labelRatingTabLikesCount.Name = "labelRatingTabLikesCount";
-            this.labelRatingTabLikesCount.Size = new System.Drawing.Size(19, 25);
-            this.labelRatingTabLikesCount.TabIndex = 8;
-            this.labelRatingTabLikesCount.Text = "-";
-            this.labelRatingTabLikesCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelRatingTabLikesFromCount.AutoSize = true;
+            this.labelRatingTabLikesFromCount.Location = new System.Drawing.Point(711, 66);
+            this.labelRatingTabLikesFromCount.Name = "labelRatingTabLikesFromCount";
+            this.labelRatingTabLikesFromCount.Size = new System.Drawing.Size(19, 25);
+            this.labelRatingTabLikesFromCount.TabIndex = 8;
+            this.labelRatingTabLikesFromCount.Text = "-";
+            this.labelRatingTabLikesFromCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelRatingChooseFriend
             // 
             this.labelRatingChooseFriend.AutoSize = true;
-            this.labelRatingChooseFriend.Location = new System.Drawing.Point(55, 41);
+            this.labelRatingChooseFriend.Location = new System.Drawing.Point(41, 187);
             this.labelRatingChooseFriend.Name = "labelRatingChooseFriend";
             this.labelRatingChooseFriend.Size = new System.Drawing.Size(215, 25);
             this.labelRatingChooseFriend.TabIndex = 7;
@@ -287,7 +381,7 @@
             // 
             this.listBoxRatingFriendsList.FormattingEnabled = true;
             this.listBoxRatingFriendsList.ItemHeight = 25;
-            this.listBoxRatingFriendsList.Location = new System.Drawing.Point(47, 88);
+            this.listBoxRatingFriendsList.Location = new System.Drawing.Point(35, 223);
             this.listBoxRatingFriendsList.Name = "listBoxRatingFriendsList";
             this.listBoxRatingFriendsList.Size = new System.Drawing.Size(223, 29);
             this.listBoxRatingFriendsList.TabIndex = 6;
@@ -295,7 +389,7 @@
             // 
             // pictureBoxRatingFriendProfilePic
             // 
-            this.pictureBoxRatingFriendProfilePic.Location = new System.Drawing.Point(350, 63);
+            this.pictureBoxRatingFriendProfilePic.Location = new System.Drawing.Point(350, 71);
             this.pictureBoxRatingFriendProfilePic.Name = "pictureBoxRatingFriendProfilePic";
             this.pictureBoxRatingFriendProfilePic.Size = new System.Drawing.Size(299, 251);
             this.pictureBoxRatingFriendProfilePic.TabIndex = 5;
@@ -304,7 +398,7 @@
             // labelRatingTabGroupsMessage
             // 
             this.labelRatingTabGroupsMessage.AutoSize = true;
-            this.labelRatingTabGroupsMessage.Location = new System.Drawing.Point(786, 284);
+            this.labelRatingTabGroupsMessage.Location = new System.Drawing.Point(786, 333);
             this.labelRatingTabGroupsMessage.Name = "labelRatingTabGroupsMessage";
             this.labelRatingTabGroupsMessage.Size = new System.Drawing.Size(217, 25);
             this.labelRatingTabGroupsMessage.TabIndex = 4;
@@ -313,7 +407,7 @@
             // labelRatingTabPagesMessage
             // 
             this.labelRatingTabPagesMessage.AutoSize = true;
-            this.labelRatingTabPagesMessage.Location = new System.Drawing.Point(786, 236);
+            this.labelRatingTabPagesMessage.Location = new System.Drawing.Point(786, 287);
             this.labelRatingTabPagesMessage.Name = "labelRatingTabPagesMessage";
             this.labelRatingTabPagesMessage.Size = new System.Drawing.Size(211, 25);
             this.labelRatingTabPagesMessage.TabIndex = 3;
@@ -322,7 +416,7 @@
             // labelRatingTabCheckinsMesage
             // 
             this.labelRatingTabCheckinsMesage.AutoSize = true;
-            this.labelRatingTabCheckinsMesage.Location = new System.Drawing.Point(786, 187);
+            this.labelRatingTabCheckinsMesage.Location = new System.Drawing.Point(786, 243);
             this.labelRatingTabCheckinsMesage.Name = "labelRatingTabCheckinsMesage";
             this.labelRatingTabCheckinsMesage.Size = new System.Drawing.Size(241, 25);
             this.labelRatingTabCheckinsMesage.TabIndex = 2;
@@ -331,20 +425,20 @@
             // labelRatingTabCommentsMessage
             // 
             this.labelRatingTabCommentsMessage.AutoSize = true;
-            this.labelRatingTabCommentsMessage.Location = new System.Drawing.Point(786, 138);
+            this.labelRatingTabCommentsMessage.Location = new System.Drawing.Point(786, 111);
             this.labelRatingTabCommentsMessage.Name = "labelRatingTabCommentsMessage";
-            this.labelRatingTabCommentsMessage.Size = new System.Drawing.Size(229, 25);
+            this.labelRatingTabCommentsMessage.Size = new System.Drawing.Size(319, 25);
             this.labelRatingTabCommentsMessage.TabIndex = 1;
-            this.labelRatingTabCommentsMessage.Text = "Comments on your posts";
+            this.labelRatingTabCommentsMessage.Text = "Comments from friend to your posts";
             // 
             // labelRatingTabLikesMessage
             // 
             this.labelRatingTabLikesMessage.AutoSize = true;
-            this.labelRatingTabLikesMessage.Location = new System.Drawing.Point(786, 93);
+            this.labelRatingTabLikesMessage.Location = new System.Drawing.Point(786, 66);
             this.labelRatingTabLikesMessage.Name = "labelRatingTabLikesMessage";
-            this.labelRatingTabLikesMessage.Size = new System.Drawing.Size(180, 25);
+            this.labelRatingTabLikesMessage.Size = new System.Drawing.Size(270, 25);
             this.labelRatingTabLikesMessage.TabIndex = 0;
-            this.labelRatingTabLikesMessage.Text = "Likes on your posts";
+            this.labelRatingTabLikesMessage.Text = "Likes from friend to your posts";
             // 
             // tabTop3Photos
             // 
@@ -536,7 +630,7 @@
             // 
             // tabControl
             // 
-            this.tabControl.AccessibleName = string.Empty;
+            this.tabControl.AccessibleName = "";
             this.tabControl.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.tabControl.Controls.Add(this.tabGeneralInfo);
             this.tabControl.Controls.Add(this.tabTop3Photos);
@@ -666,6 +760,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCoverPhoto)).EndInit();
             this.tabRatingFreinds.ResumeLayout(false);
             this.tabRatingFreinds.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRatingFriendProfilePic)).EndInit();
             this.tabTop3Photos.ResumeLayout(false);
             this.tabTop3Photos.PerformLayout();
@@ -725,8 +821,8 @@
         private System.Windows.Forms.Label labelRatingTabGroupsCount;
         private System.Windows.Forms.Label labelRatinTabPagesCount;
         private System.Windows.Forms.Label labelRatingTabCheckinsCount;
-        private System.Windows.Forms.Label labelRatingTabCommentsCount;
-        private System.Windows.Forms.Label labelRatingTabLikesCount;
+        private System.Windows.Forms.Label labelRatingTabCommentsFromCount;
+        private System.Windows.Forms.Label labelRatingTabLikesFromCount;
         private System.Windows.Forms.Label labelRatingTabRankMessage;
         private System.Windows.Forms.Button buttonShowTop3Photos;
         private System.Windows.Forms.TabPage tabYourGroups;
@@ -739,5 +835,13 @@
         private System.Windows.Forms.LinkLabel linkLinkLabel;
         private System.Windows.Forms.Label nameLabel1;
         private System.Windows.Forms.Label ownerNameLabel1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RadioButton radioButtonSharedInterests;
+        private System.Windows.Forms.RadioButton radioButtonInteractions;
+        private System.Windows.Forms.Label labelRatingTabCommentsToCount;
+        private System.Windows.Forms.Label labelRatingTabLikesToCount;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label7;
     }
 }

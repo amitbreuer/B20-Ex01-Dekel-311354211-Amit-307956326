@@ -9,9 +9,13 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
     {
         public string Name { get; set; }
 
-        public int NumberOfLikes { get; set; }
+        public int NumberOfLikesToFriend { get; set; }
 
-        public int NumberOfComments { get; set; }
+        public int NumberOfCommentsToFriend { get; set; }
+
+        public int NumberOfLikesFromFriend { get; set; }
+
+        public int NumberOfCommentsFromFriend { get; set; }
 
         public int NumberOfSharedCheckins { get; set; }
 
@@ -21,12 +25,16 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
 
         public string ProfilePictureUrl { get; set; }
 
+        public int Score { get; set; }
+
         public FriendData(User i_User, User i_Friend)
         {
             this.Name = i_Friend.Name;
             this.ProfilePictureUrl = i_Friend.PictureLargeURL;
-            this.NumberOfComments = -1;
-            this.NumberOfLikes = -1;
+            this.NumberOfCommentsFromFriend = -1;
+            this.NumberOfCommentsToFriend = -1;
+            this.NumberOfLikesFromFriend = -1;
+            this.NumberOfLikesToFriend = -1;
             this.NumberOfSharedCheckins = -1;
             this.NumberOfSharedPages = -1;
             this.NumberOfSharedGroups = -1;
@@ -52,7 +60,8 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
 
         private void updateFriendData(User i_User, User i_Friend)
         {
-            getNumberOfLikesAndComments(i_User, i_Friend);
+            getNumberOfLikesAndCommentsFromFriend(i_User, i_Friend);
+            getNumberOfLikesAndCommentsToFriend(i_User, i_Friend);
             getNumberOfSharedCheckins(i_User, i_Friend);
             getNumberOfSharedPages(i_User, i_Friend);
             getNumberOfSharedGroups(i_User, i_Friend);
@@ -73,7 +82,7 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
 
             if (groups != null)
             {
-                foreach (Group group in i_User.Groups)
+                foreach (Group group in groups)
                 {
                     if (i_Friend.Groups != null && i_Friend.Groups.Contains(group))
                     {
@@ -98,7 +107,7 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
 
             if (likedPages != null)
             {
-                foreach (Page page in i_User.LikedPages)
+                foreach (Page page in likedPages)
                 {
                     if (i_Friend.LikedPages != null && i_Friend.LikedPages.Contains(page))
                     {
@@ -123,7 +132,7 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
 
             if (checkins != null)
             {
-                foreach (Checkin checkin in i_User.Checkins)
+                foreach (Checkin checkin in checkins)
                 {
                     if (i_Friend.Checkins != null && i_Friend.Checkins.Contains(checkin))
                     {
@@ -133,8 +142,25 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
             }
         }
 
-        private void getNumberOfLikesAndComments(User i_User, User i_Friend)
+        private void getNumberOfLikesAndCommentsFromFriend(User i_User, User i_Friend)
         {
+            int[] likesAndComments = getNumberOfLikesAndCommentsBetweenFriends(i_User, i_Friend);
+
+            NumberOfLikesFromFriend = likesAndComments[0];
+            NumberOfCommentsFromFriend = likesAndComments[1];
+        }
+
+        private void getNumberOfLikesAndCommentsToFriend(User i_User, User i_Friend)
+        {
+            int[] likesAndComments = getNumberOfLikesAndCommentsBetweenFriends(i_Friend, i_User);
+
+            NumberOfLikesToFriend = likesAndComments[0];
+            NumberOfCommentsToFriend = likesAndComments[1];
+        }
+
+        private int[] getNumberOfLikesAndCommentsBetweenFriends(User i_User, User i_Friend)
+        {
+            int[] o_NumberOfLikesAndComments = { 0, 0 };
             FacebookObjectCollection<Post> posts;
 
             try
@@ -148,7 +174,7 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
 
             if (posts != null)
             {
-                foreach (Post post in i_User.Posts)
+                foreach (Post post in posts)
                 {
                     FacebookObjectCollection<User> likedBy;
                     FacebookObjectCollection<Comment> comments;
@@ -164,7 +190,7 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
 
                     if (likedBy != null && isUserInCollectionOfUser(i_Friend, likedBy))
                     {
-                        NumberOfLikes++;
+                        o_NumberOfLikesAndComments[0]++;
                     }
 
                     try
@@ -178,44 +204,26 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
 
                     if (comments != null)
                     {
-                        foreach (Comment comment in post.Comments)
+                        foreach (Comment comment in comments)
                         {
                             if (comment.From.Name.Equals(i_Friend.Name))
                             {
-                                NumberOfComments++;
+                                o_NumberOfLikesAndComments[1]++;
                             }
                         }
                     }
                 }
             }
+
+            return o_NumberOfLikesAndComments;
         }
 
         public int CompareTo(object obj)
         {
-            int friend1Rating = this.GetFriendScore();
-            int friend2Rating = (obj as FriendData).GetFriendScore();
+            int friend1Rating = this.Score;
+            int friend2Rating = (obj as FriendData).Score;
 
             return friend2Rating - friend1Rating;
-        }
-
-        public int GetFriendScore()
-        {
-            int o_Score = 0;
-            int intValue;
-            Type thisType = this.GetType();
-
-            foreach (PropertyInfo propertyInfo in thisType.GetProperties())
-            {
-                object propertyValue = propertyInfo.GetValue(this, null);
-
-                if (!propertyInfo.Name.Equals("Name"))
-                {
-                    intValue = int.Parse(propertyValue.ToString());
-                    o_Score += 3 * intValue;
-                }
-            }
-
-            return o_Score;
         }
     }
 }

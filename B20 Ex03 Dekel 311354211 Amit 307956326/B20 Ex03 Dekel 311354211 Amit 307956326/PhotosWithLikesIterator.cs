@@ -10,16 +10,12 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
 {
     public class PhotosWithLikesIterator : IEnumerator<Photo>
     {
-        //private IEnumerator<Photo> m_Current;
-        //private IEnumerator<Photo> m_CollectionCurrent;
-
         private readonly FacebookObjectCollection<Photo> r_Photos;
         private int m_Index = -1;
         private int m_Count = -1;
 
         public PhotosWithLikesIterator(FacebookObjectCollection<Photo> i_Photos)
         {
-            //m_CollectionCurrent = i_Photos.GetEnumerator();
             r_Photos = i_Photos;
             m_Count = i_Photos.Count;
         }
@@ -44,7 +40,7 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
         {
             m_Index++;
 
-            while(r_Photos[m_Index].LikedBy.Count <= 0)
+            while(m_Index < m_Count && r_Photos[m_Index].LikedBy.Count <= 0)
             {
                 m_Index++;
             }

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace B20_Ex03_Dekel_311354211_Amit_307956326
 {
-    public static class x
+    public static class Program
     {
         /// <summary>
         /// The main entry point for the application.
