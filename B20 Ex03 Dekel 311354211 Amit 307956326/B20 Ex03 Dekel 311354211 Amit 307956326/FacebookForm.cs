@@ -185,7 +185,7 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
         private void listBoxRatingFriendsList_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedFriendName = listBoxRatingFriendsList.SelectedItem.ToString();
-            new Thread(() => fetchAndUpdateSelectedFriendData(selectedFriendName,radioButtonInteractions.Checked)).Start();
+            new Thread(() => fetchAndUpdateSelectedFriendData(selectedFriendName, radioButtonInteractions.Checked)).Start();
         }
 
         private void fetchAndUpdateSelectedFriendData(string i_FriendName, bool i_CalculateByInteractions)

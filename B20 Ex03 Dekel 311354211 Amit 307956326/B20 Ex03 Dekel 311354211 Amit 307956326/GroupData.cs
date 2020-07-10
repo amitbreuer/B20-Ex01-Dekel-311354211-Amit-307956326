@@ -19,13 +19,28 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
 
         public string IconUrl { get; set; }
 
-        public GroupData(Group i_Group)
+        public List<string> KnownMembers { get; }
+
+        public GroupData(GroupAndKnownMembers i_GroupAndKnownMembers)
         {
-            this.Name = i_Group.Name;
-            this.OwnerName = i_Group.Owner.Name;
-            this.Link = i_Group.Link;
-            this.Description = i_Group.Description;
-            this.IconUrl = i_Group.IconUrl;
+            this.Name = i_GroupAndKnownMembers.Group.Name;
+            this.OwnerName = i_GroupAndKnownMembers.Group.Owner.Name;
+            this.Link = i_GroupAndKnownMembers.Group.Link;
+            this.Description = i_GroupAndKnownMembers.Group.Description;
+            this.IconUrl = i_GroupAndKnownMembers.Group.IconUrl;
+            this.KnownMembers = getKnownMembersNames(i_GroupAndKnownMembers.KnownMembers);
+        }
+
+        private List<string> getKnownMembersNames(FacebookObjectCollection<User> knownMembers)
+        {
+            List<string> knownMembersNames = new List<string>();
+
+            foreach(User user in knownMembers)
+            {
+                knownMembersNames.Add(user.Name);
+            }
+
+            return knownMembersNames;
         }
     }
 }

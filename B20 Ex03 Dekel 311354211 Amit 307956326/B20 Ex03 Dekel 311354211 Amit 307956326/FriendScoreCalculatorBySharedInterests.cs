@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace B20_Ex03_Dekel_311354211_Amit_307956326
 {
-    class FriendScoreCalculatorBySharedInterests : IFriendScoreCalculator
+    public class FriendScoreCalculatorBySharedInterests : IFriendScoreCalculator
     {
         public int CalculateFriendScore(FriendData i_FriendData)
         {

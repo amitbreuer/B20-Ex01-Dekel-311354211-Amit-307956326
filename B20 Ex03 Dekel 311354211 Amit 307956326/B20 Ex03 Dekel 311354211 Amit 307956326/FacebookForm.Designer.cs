@@ -84,13 +84,15 @@
             this.tabYourGroups = new System.Windows.Forms.TabPage();
             this.labelGroups = new System.Windows.Forms.Label();
             this.listBoxGroups = new System.Windows.Forms.ListBox();
-            this.groupDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.descriptionTextBox = new System.Windows.Forms.TextBox();
             this.iconUrlPictureBox = new System.Windows.Forms.PictureBox();
             this.linkLinkLabel = new System.Windows.Forms.LinkLabel();
             this.nameLabel1 = new System.Windows.Forms.Label();
             this.ownerNameLabel1 = new System.Windows.Forms.Label();
+            this.groupDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
             descriptionLabel = new System.Windows.Forms.Label();
             linkLabel = new System.Windows.Forms.Label();
             nameLabel = new System.Windows.Forms.Label();
@@ -110,9 +112,9 @@
             this.tabGeneralInfo.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabYourGroups.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.groupDataBindingSource)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconUrlPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupDataBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // descriptionLabel
@@ -630,7 +632,7 @@
             // 
             // tabControl
             // 
-            this.tabControl.AccessibleName = "";
+            this.tabControl.AccessibleName = string.Empty;
             this.tabControl.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.tabControl.Controls.Add(this.tabGeneralInfo);
             this.tabControl.Controls.Add(this.tabTop3Photos);
@@ -646,6 +648,7 @@
             // 
             // tabYourGroups
             // 
+            this.tabYourGroups.AutoScroll = true;
             this.tabYourGroups.Controls.Add(this.labelGroups);
             this.tabYourGroups.Controls.Add(this.listBoxGroups);
             this.tabYourGroups.Controls.Add(this.panel1);
@@ -668,8 +671,6 @@
             // 
             // listBoxGroups
             // 
-            this.listBoxGroups.DataSource = this.groupDataBindingSource;
-            this.listBoxGroups.DisplayMember = "Name";
             this.listBoxGroups.FormattingEnabled = true;
             this.listBoxGroups.ItemHeight = 25;
             this.listBoxGroups.Location = new System.Drawing.Point(88, 92);
@@ -677,12 +678,10 @@
             this.listBoxGroups.Size = new System.Drawing.Size(225, 429);
             this.listBoxGroups.TabIndex = 1;
             // 
-            // groupDataBindingSource
-            // 
-            this.groupDataBindingSource.DataSource = typeof(B20_Ex03_Dekel_311354211_Amit_307956326.GroupData);
-            // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.listBox1);
             this.panel1.Controls.Add(descriptionLabel);
             this.panel1.Controls.Add(this.descriptionTextBox);
             this.panel1.Controls.Add(this.iconUrlPictureBox);
@@ -694,12 +693,11 @@
             this.panel1.Controls.Add(this.ownerNameLabel1);
             this.panel1.Location = new System.Drawing.Point(414, 92);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(458, 429);
+            this.panel1.Size = new System.Drawing.Size(683, 429);
             this.panel1.TabIndex = 0;
             // 
             // descriptionTextBox
             // 
-            this.descriptionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.groupDataBindingSource, "Description", true));
             this.descriptionTextBox.Location = new System.Drawing.Point(78, 211);
             this.descriptionTextBox.Multiline = true;
             this.descriptionTextBox.Name = "descriptionTextBox";
@@ -708,7 +706,6 @@
             // 
             // iconUrlPictureBox
             // 
-            this.iconUrlPictureBox.DataBindings.Add(new System.Windows.Forms.Binding("Image", this.groupDataBindingSource, "IconUrl", true));
             this.iconUrlPictureBox.Location = new System.Drawing.Point(73, 20);
             this.iconUrlPictureBox.Name = "iconUrlPictureBox";
             this.iconUrlPictureBox.Size = new System.Drawing.Size(234, 103);
@@ -717,7 +714,6 @@
             // 
             // linkLinkLabel
             // 
-            this.linkLinkLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.groupDataBindingSource, "Link", true));
             this.linkLinkLabel.Location = new System.Drawing.Point(128, 379);
             this.linkLinkLabel.Name = "linkLinkLabel";
             this.linkLinkLabel.Size = new System.Drawing.Size(306, 25);
@@ -727,7 +723,6 @@
             // 
             // nameLabel1
             // 
-            this.nameLabel1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.groupDataBindingSource, "Name", true));
             this.nameLabel1.Location = new System.Drawing.Point(212, 135);
             this.nameLabel1.Name = "nameLabel1";
             this.nameLabel1.Size = new System.Drawing.Size(174, 32);
@@ -736,12 +731,33 @@
             // 
             // ownerNameLabel1
             // 
-            this.ownerNameLabel1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.groupDataBindingSource, "OwnerName", true));
             this.ownerNameLabel1.Location = new System.Drawing.Point(207, 340);
             this.ownerNameLabel1.Name = "ownerNameLabel1";
             this.ownerNameLabel1.Size = new System.Drawing.Size(193, 39);
             this.ownerNameLabel1.TabIndex = 9;
             this.ownerNameLabel1.Text = "owner name";
+            // 
+            // groupDataBindingSource
+            // 
+            this.groupDataBindingSource.DataSource = typeof(B20_Ex03_Dekel_311354211_Amit_307956326.GroupData);
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 25;
+            this.listBox1.Location = new System.Drawing.Point(392, 135);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(239, 254);
+            this.listBox1.TabIndex = 10;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(392, 87);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(165, 25);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Known members:";
             // 
             // FacebookForm
             // 
@@ -776,10 +792,10 @@
             this.tabControl.ResumeLayout(false);
             this.tabYourGroups.ResumeLayout(false);
             this.tabYourGroups.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.groupDataBindingSource)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconUrlPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupDataBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -830,7 +846,6 @@
         private System.Windows.Forms.ListBox listBoxGroups;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox descriptionTextBox;
-        private System.Windows.Forms.BindingSource groupDataBindingSource;
         private System.Windows.Forms.PictureBox iconUrlPictureBox;
         private System.Windows.Forms.LinkLabel linkLinkLabel;
         private System.Windows.Forms.Label nameLabel1;
@@ -843,5 +858,8 @@
         private System.Windows.Forms.Label labelRatingTabLikesToCount;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.BindingSource groupDataBindingSource;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }

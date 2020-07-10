@@ -67,6 +67,7 @@
     <Compile Include="FriendData.cs" />
     <Compile Include="FacebookAppFacade.cs" />
     <Compile Include="FriendScoreCalculatorBySharedInterests.cs" />
+    <Compile Include="GroupAndKnownMembers.cs" />
     <Compile Include="GroupData.cs" />
     <Compile Include="IFriendScoreCalculator.cs" />
     <Compile Include="LoggedInUserData.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TopThreeLikedPhotosGenerator.cs" />
+    <Compile Include="UserDecorator.cs" />
     <EmbeddedResource Include="FacebookForm.resx">
       <DependentUpon>FacebookForm.cs</DependentUpon>
     </EmbeddedResource>

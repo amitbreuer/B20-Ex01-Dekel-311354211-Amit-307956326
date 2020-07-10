@@ -36,7 +36,7 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
             FacebookObjectCollection<User> friends;
             FacebookObjectCollection<Checkin> checkins;
             FacebookObjectCollection<Post> posts;
-            FacebookObjectCollection<Group> groups;
+            FacebookObjectCollection<GroupAndKnownMembers> groups;
 
             try
             {
@@ -70,10 +70,11 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
             }
 
             createPostsDataList(posts);
+            UserDecorator userDecorator = new UserDecorator(i_LoggedInUser);
 
             try
             {
-                groups = i_LoggedInUser.Groups;
+                groups = userDecorator.Groups;
             }
             catch
             {
@@ -83,15 +84,15 @@ namespace B20_Ex03_Dekel_311354211_Amit_307956326
             createGroupsDataList(groups);
         }
 
-        private void createGroupsDataList(FacebookObjectCollection<Group> i_Groups)
+        private void createGroupsDataList(FacebookObjectCollection<GroupAndKnownMembers> i_Groups)
         {
             this.GroupsData = new List<GroupData>();
 
             if (i_Groups != null)
             {
-                foreach (Group group in i_Groups)
+                foreach (GroupAndKnownMembers groupAndKnownMembers in i_Groups)
                 {
-                    this.GroupsData.Add(new GroupData(group));
+                    this.GroupsData.Add(new GroupData(groupAndKnownMembers));
                 }
             }
         }
